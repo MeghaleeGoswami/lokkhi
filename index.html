@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lokhi — Your Financial World</title>
+<link rel="stylesheet" href="./lokhi-assets/styles.css">
+<link rel="stylesheet" href="./app-styles.css">
+</head>
+<body>
+
+<!-- ============ APP SHELL: SIDEBAR + HEADER ============ -->
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><img src="./lokhi-assets/assets/owl/owl-young-young.png" alt=""><span>Lokhi</span></div>
+    <nav class="sidebar-nav">
+      <button class="sidenav-item active" data-tab="home"><span class="emoji">🏠</span><span>Home</span></button>
+      <button class="sidenav-item" data-tab="playground"><span class="emoji">🎮</span><span>Playground</span></button>
+      <button class="sidenav-item" data-tab="optimize"><span class="emoji">✨</span><span>Optimize</span></button>
+      <button class="sidenav-item" data-tab="grow"><span class="emoji">🌱</span><span>Grow</span></button>
+      <button class="sidenav-item" data-tab="profile"><span class="emoji">👤</span><span>Profile</span></button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <span class="sidebar-avatar" id="sideAvatar">🧭</span>
+        <div>
+          <div class="su-name">Lv <span id="sideLevel">14</span></div>
+          <div class="su-sub">🔥 <span id="sideStreak">26</span>-wk streak</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="main-area">
+    <header class="app-header">
+      <h1 id="pageTitle">Home</h1>
+      <div class="nav-right">
+        <span class="streak-pill">🔥 <span id="navStreak">26</span>-wk streak</span>
+        <span class="xp-pill">⭐ Lv <span id="navLevel">14</span></span>
+      </div>
+    </header>
+    <main class="main-scroll">
+      <div class="wrap">
+
+  <!-- ============================================================ -->
+  <!-- HOME -->
+  <!-- ============================================================ -->
+  <section class="tabpanel active" data-panel="home">
+    <div class="hero-greet">
+      <div>
+        <h1 id="greeting">Good morning, Megha ✨</h1>
+        <p class="sub" id="greetSub">Level 14 — Financial Explorer · 🔥 26-week Money Streak</p>
+      </div>
+      <button class="btn btn-secondary" data-goto="playground">Enter the Playground</button>
+    </div>
+
+    <div id="journeyPromptSlot"></div>
+
+    <div class="card card--gradient character-card">
+      <div class="avatar-ring" id="homeAvatarRing">🧭</div>
+      <div class="char-stats">
+        <div class="level-row"><span class="lvl" id="charLevel">Level 14</span><span class="title" id="charTitle">Financial Explorer</span></div>
+        <div class="xp-track"><div class="xp-fill" id="xpFillHome" style="width:0%;"></div></div>
+        <div class="xp-caption" id="xpCaptionHome">3,150 / 3,500 XP · 350 XP to next level</div>
+        <div style="margin-top:16px;font-size:14px;">Financial Health: <strong id="healthScore">72</strong>/100</div>
+        <div class="power-bars" id="powerBarsHome"></div>
+      </div>
+    </div>
+
+    <div class="card section-block" style="margin-top:24px;">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <div style="position:relative;width:96px;height:96px;display:grid;place-items:center;flex:0 0 auto;">
+          <span style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 52%, var(--stage-ontrack-tint) 0%, var(--stage-ontrack-tint) 58%, transparent 72%);"></span>
+          <img src="./lokhi-assets/assets/owl/owl-young-young.png" style="position:relative;width:78px;">
+        </div>
+        <div style="flex:1;min-width:160px;">
+          <span class="eyebrow" style="display:block;margin-bottom:4px;">Net worth</span>
+          <div class="money money-display" id="homeNetWorthHero">¥0</div>
+          <div style="font-size:13px;color:var(--moss-growth);margin-top:2px;">Growing steadily</div>
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);margin-bottom:8px;">
+          <span style="width:16px;height:0;border-top:2px dashed var(--gold-thread);display:inline-block;"></span> Golden path
+          <span style="width:16px;height:0;border-top:2px solid var(--moss-growth);display:inline-block;margin-left:8px;"></span> Actual
+        </div>
+        <svg viewBox="0 0 600 90" preserveAspectRatio="none" style="display:block;width:100%;height:90px;overflow:visible;">
+          <path d="M0,76 C120,64 200,54 280,42 C360,30 440,18 600,4" fill="none" stroke="var(--gold-thread)" stroke-width="2" stroke-dasharray="5 6" stroke-linecap="round" opacity=".75"/>
+          <path d="M0,78 C110,66 190,50 270,40 C350,28 430,16 600,2" fill="none" stroke="var(--moss-growth)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="600" cy="2" r="5" fill="var(--moss-growth)" stroke="var(--surface-card)" stroke-width="2.5"/>
+        </svg>
+        <p style="margin:12px 0 0;font-size:12px;color:var(--text-muted);">The golden path is a rough shape of where your target says you should be. Actual is what happened.</p>
+      </div>
+    </div>
+
+    <div class="section-block" style="margin-top:24px;">
+      <h3 style="margin-bottom:14px;">Your Current World</h3>
+      <div class="world-grid" id="worldGrid"></div>
+    </div>
+
+    <div class="section-block" style="margin-top:24px;">
+      <h3 style="margin-bottom:4px;">What Lokhi noticed</h3>
+      <div class="insight-list" id="insightList"></div>
+    </div>
+
+    <div class="section-block" style="margin-top:28px;">
+      <h3 style="margin-bottom:14px;">Your Journey</h3>
+      <div class="journey" id="journeyMap"></div>
+    </div>
+
+    <div class="section-block" style="margin-top:28px;">
+      <div class="card">
+        <h3 style="margin-bottom:14px;">This Week</h3>
+        <div id="weeklyMissions"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--border-hairline);">
+          <span style="font-size:13px;color:var(--text-muted);">Weekly progress</span>
+          <span class="badge badge-gold" id="weeklyXpBadge">+0 XP</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PLAYGROUND -->
+  <!-- ============================================================ -->
+  <section class="tabpanel" data-panel="playground">
+    <p class="sub" style="margin-bottom:24px;">Every quest below opens a real simulator. Nothing here changes your actual data.</p>
+
+    <h3 style="margin-bottom:14px;">Your Quests</h3>
+    <div class="grid-4" id="questGrid"></div>
+
+    <div class="section-block" style="margin-top:32px;">
+      <h3 style="margin-bottom:14px;">Suggested Goals</h3>
+      <div class="grid-2" id="suggestedGoals"></div>
+    </div>
+
+    <div class="section-block" style="margin-top:28px;">
+      <h3 style="margin-bottom:4px;">Personalized For You</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">Generated from your income, spending, NISA usage and stated goals.</p>
+      <div class="grid-2" id="personalizedGoals"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- OPTIMIZE -->
+  <!-- ============================================================ -->
+  <section class="tabpanel" data-panel="optimize">
+    <p class="sub" style="margin-bottom:24px;">Ways to make better decisions without becoming a financial expert.</p>
+
+    <div class="intel-hero">
+      <span class="sub" id="intelSub">Potential annual optimization</span>
+      <div class="headline" id="intelHeadline">You found ¥84,000</div>
+      <ul id="intelBasedOn"></ul>
+      <button class="btn" style="background:#fff;color:var(--moss-growth);">See how</button>
+    </div>
+
+    <h3 style="margin-bottom:14px;">Opportunities For You</h3>
+    <div class="grid-2" id="opportunityGrid"></div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- GROW -->
+  <!-- ============================================================ -->
+  <section class="tabpanel" data-panel="grow">
+    <p class="sub" style="margin-bottom:24px;">Your wealth, visualized as a world instead of a number.</p>
+
+    <h3 style="margin-bottom:14px;">Your Wealth Garden</h3>
+    <div class="garden" id="wealthGarden"></div>
+
+    <div class="section-block" style="margin-top:32px;">
+      <h3 style="margin-bottom:14px;">Investment Explorer</h3>
+      <div class="grid-3" id="investmentExplorer" style="grid-template-columns:repeat(5,1fr);"></div>
+    </div>
+
+    <div class="section-block" style="margin-top:32px;">
+      <h3 style="margin-bottom:6px;">The World Is Moving</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">Educational, not sensational. Tap a theme.</p>
+      <div id="themePills"></div>
+      <div class="theme-detail card" id="themeDetail" style="display:none;"></div>
+    </div>
+
+    <div class="section-block" style="margin-top:32px;">
+      <h3 style="margin-bottom:14px;">Investment Quests</h3>
+      <div class="grid-2" id="investmentQuests"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PROFILE -->
+  <!-- ============================================================ -->
+  <section class="tabpanel" data-panel="profile">
+    <p class="sub" style="margin-bottom:24px;">Your financial character, score, badges, and privacy.</p>
+
+    <h3 style="margin-bottom:14px;">Choose your avatar</h3>
+    <div class="avatar-grid" id="profileAvatarGrid"></div>
+
+    <div class="section-block card" style="margin-top:28px;">
+      <h3 style="margin-bottom:14px;">Financial Power</h3>
+      <div style="font:800 36px var(--font-display-latin);color:var(--text-heading);" id="fpTotal">78 / 100</div>
+      <div class="power-bars" id="financialPowerBars" style="margin-top:16px;"></div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:14px;line-height:1.5;">This score describes patterns in your financial habits — it is not a measure of your worth.</p>
+    </div>
+
+    <div class="section-block" style="margin-top:28px;">
+      <h3 style="margin-bottom:14px;">Badges</h3>
+      <div class="badge-grid" id="badgeGrid"></div>
+    </div>
+
+    <div class="section-block card social-card" style="margin-top:28px;">
+      <div>
+        <h3 style="margin-bottom:6px;">Compare privately with friends</h3>
+        <p style="font-size:12px;color:var(--text-muted);max-width:340px;line-height:1.5;" id="socialText">Opt in to see "You're ahead of 72% of your friends in investment consistency." No balances, income, or transactions are ever shared.</p>
+      </div>
+      <div class="toggle" id="socialToggle"><div class="knob"></div></div>
+    </div>
+
+    <div class="section-block" style="margin-top:28px;text-align:center;">
+      <button class="btn btn-ghost btn-sm" id="revisitJourneyBtn" style="margin-bottom:10px;">Revisit your Financial Plan Journey</button><br>
+      <a href="./onboarding.html" style="font-size:13px;color:var(--text-muted);text-decoration:underline;">Redo your Financial Character →</a>
+    </div>
+  </section>
+
+      </div>
+      <footer class="appfoot">Lokhi — built as a modular prototype. Swap <code>userProfile</code> in app-data.js with real onboarding output at any time.</footer>
+    </main>
+  </div>
+</div>
+
+<!-- ============ SIMULATOR MODAL ============ -->
+<div class="modal-overlay" id="simModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <span class="eyebrow" id="simEyebrow">Quest simulator</span>
+        <h2 id="simTitle" style="font-size:22px;margin-top:4px;">NISA Ninja</h2>
+      </div>
+      <button class="modal-close" id="simClose">✕</button>
+    </div>
+    <div class="result-grid" style="margin-top:16px;">
+      <div class="result-cell"><div class="lbl">Current strategy</div><div class="val" id="simCurrentVal">¥0</div></div>
+      <div class="result-cell"><div class="lbl">NISA utilization</div><div class="val" id="simNisaUtil">45%</div></div>
+    </div>
+
+    <div class="slider-row">
+      <div class="srow-head"><span id="simMonthlyLabel">Monthly investment</span><span class="srow-val" id="simMonthlyVal">¥50,000</span></div>
+      <input type="range" id="simMonthly">
+    </div>
+    <div class="slider-row">
+      <div class="srow-head"><span>Investment horizon</span><span class="srow-val" id="simYearsVal">23 years</span></div>
+      <input type="range" id="simYears" min="1" max="35" step="1">
+    </div>
+    <div class="slider-row">
+      <div class="srow-head"><span>Expected return</span><span class="srow-val" id="simReturnVal">3%</span></div>
+      <input type="range" id="simReturn" min="0" max="10" step="0.5">
+    </div>
+
+    <div class="quick-q">
+      <button data-q="plus30">"What if I invest ¥30,000 more/month?"</button>
+      <button data-q="retire50">"What if I retire 5 years earlier?"</button>
+      <button data-q="return8">"What if returns average 8%?"</button>
+    </div>
+
+    <div class="result-diff">
+      <div class="lbl" style="color:var(--moss-growth);">Optimized strategy</div>
+      <div class="val" id="simOptimizedVal">¥0</div>
+      <div style="font-size:13px;color:var(--moss-growth);margin-top:6px;">Potential difference: <strong id="simDiffVal">+¥0</strong></div>
+    </div>
+    <div class="result-grid">
+      <div class="result-cell"><div class="lbl">Est. tax advantage</div><div class="val" id="simTaxVal">¥0</div></div>
+      <div class="result-cell"><div class="lbl">XP earned</div><div class="val" style="color:var(--gold-thread);" id="simXpVal">+0 XP</div></div>
+    </div>
+
+    <p class="assumption-note">Illustrative only. Assumes a constant return and does not account for fees, taxes on non-NISA gains, or market volatility. Past performance is not a guarantee of future results.</p>
+    <button class="btn btn-primary btn-block" style="margin-top:16px;" id="simSave">Go with this shape (+XP)</button>
+  </div>
+</div>
+
+<!-- ============ LEVEL UP OVERLAY ============ -->
+<div class="levelup-overlay" id="levelUpOverlay">
+  <div class="levelup-card">
+    <div style="font-size:44px;">🎉</div>
+    <div class="big">Level Up!</div>
+    <div style="font-size:16px;margin-top:6px;">You've reached Level <span id="newLevel">15</span></div>
+    <button class="btn" style="margin-top:20px;background:var(--ink-indigo);color:#fff;" id="levelUpClose">Keep going</button>
+  </div>
+</div>
+
+<!-- ============ FAIRY GODMOTHER (persistent) ============ -->
+<div class="fairy" id="fairy">
+  <div class="fairy-bubble">
+    <div class="fairy-head">
+      <span class="dot"><img src="./lokhi-assets/assets/fairy/fairy-wisteria.png"></span>
+      <span class="name">Fairy Godmother</span>
+      <button id="fairyClose">×</button>
+    </div>
+    <p class="fairy-msg" id="fairyMsg">You're closer to your home goal than you think — want me to show you the math?</p>
+  </div>
+  <button class="fairy-fab" id="fairyFab"><img src="./lokhi-assets/assets/fairy/fairy-wisteria.png"></button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ============ GUIDED FINANCIAL JOURNEY — in-app, natural first-run flow ============ -->
+<div class="gj-overlay" id="gjOverlay">
+  <div class="jtop">
+    <div class="jtop-row">
+      <div class="jtop-brand"><img src="./lokhi-assets/assets/owl/owl-young-young.png">Building your plan</div>
+      <div class="jtop-meta">
+        <span id="gjStepCounter">Step 1 of 20</span>
+        <span class="jtop-xp">⭐ Lv <span id="gjLevel">14</span></span>
+        <button class="btn btn-ghost btn-sm" id="gjSkip" style="height:30px;">Save &amp; continue later</button>
+      </div>
+    </div>
+    <div class="tracker" id="gjTracker"></div>
+  </div>
+  <div class="gj-scroll">
+    <div class="jwrap">
+      <div class="step-label" id="gjStepLabel">STAGE 1 · UNDERSTAND</div>
+      <h1 class="slide-title" id="gjSlideTitle">Let's understand your financial world</h1>
+      <div class="fairy-quote"><img src="./lokhi-assets/assets/fairy/fairy-wisteria.png"><p id="gjFairyQuote"></p></div>
+      <div id="gjSlideBody"></div>
+    </div>
+  </div>
+  <div class="jnav">
+    <div class="jnav-inner">
+      <button class="btn btn-ghost" id="gjPrevBtn">← Back</button>
+      <button class="btn btn-primary" id="gjNextBtn">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script src="./app-data.js"></script>
+<script>
+const D = window.APP_DATA;
+const p = D.userProfile;
+const world = D.computeWorld(p);
+let xp = p.xp, level = p.level, xpForNext = p.xpForNextLevel;
+
+function money(n){ return '¥' + Math.round(n).toLocaleString('en-US'); }
+function moneyShort(n){
+  const abs = Math.abs(n);
+  if(abs >= 1000000) return (n<0?'-':'') + '¥' + (Math.round(abs/100000)/10) + 'M';
+  if(abs >= 1000) return (n<0?'-':'') + '¥' + Math.round(abs/1000) + 'K';
+  return money(n);
+}
+
+/* ================= NAV ================= */
+document.querySelectorAll('.sidenav-item').forEach(t=>t.addEventListener('click', ()=>goTo(t.getAttribute('data-tab'))));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click', ()=>goTo(b.getAttribute('data-goto'))));
+const PAGE_TITLES = {home:'Home', playground:'Playground', optimize:'Optimize', grow:'Grow', profile:'Profile'};
+function goTo(name){
+  document.querySelectorAll('.sidenav-item').forEach(t=>t.classList.toggle('active', t.getAttribute('data-tab')===name));
+  document.querySelectorAll('.tabpanel').forEach(s=>s.classList.toggle('active', s.getAttribute('data-panel')===name));
+  document.getElementById('fairyMsg').textContent = D.FAIRY_NUDGES[name] || '';
+  const titleEl = document.getElementById('pageTitle'); if(titleEl) titleEl.textContent = PAGE_TITLES[name] || '';
+}
+
+/* ================= HOME ================= */
+function avatarObj(id){ return D.AVATARS.find(a=>a.id===id) || D.AVATARS[0]; }
+function renderHome(){
+  const av = avatarObj(window.APP_STORAGE.getAvatar());
+  document.getElementById('greeting').textContent = `Good morning, ${p.name} ${av.icon}`;
+  document.getElementById('greetSub').textContent = `Level ${level} — Financial ${av.name} · 🔥 ${p.streakWeeks}-week Money Streak`;
+  document.getElementById('navStreak').textContent = p.streakWeeks;
+  document.getElementById('navLevel').textContent = level;
+  const gjLevelEl = document.getElementById('gjLevel'); if(gjLevelEl) gjLevelEl.textContent = level;
+  document.getElementById('sideStreak').textContent = p.streakWeeks;
+  document.getElementById('sideLevel').textContent = level;
+  document.getElementById('sideAvatar').textContent = av.icon;
+  document.getElementById('homeNetWorthHero').textContent = money(world.netWorth);
+
+  const ring = document.getElementById('homeAvatarRing');
+  ring.textContent = av.icon;
+  ring.style.setProperty('--avatar-color', av.color);
+
+  document.getElementById('charLevel').textContent = 'Level ' + level;
+  document.getElementById('charTitle').textContent = 'Financial ' + av.name;
+  document.getElementById('healthScore').textContent = p.financialHealth;
+  const xpPct = Math.min(100, (xp/xpForNext)*100);
+  document.getElementById('xpFillHome').style.width = xpPct + '%';
+  document.getElementById('xpCaptionHome').textContent = `${xp.toLocaleString()} / ${xpForNext.toLocaleString()} XP · ${(xpForNext-xp).toLocaleString()} XP to next level`;
+
+  const powers = [
+    ['Savings Power', p.powers.savings, 'var(--moss-growth)'],
+    ['Investment Power', p.powers.investing, 'var(--ink-indigo)'],
+    ['Optimization Power', p.powers.optimization, 'var(--gold-thread)'],
+    ['Goal Readiness', p.powers.goalReadiness, 'var(--denim-ledger)'],
+    ['Financial Freedom', p.powers.freedom, 'var(--coral-pulse)'],
+  ];
+  document.getElementById('powerBarsHome').innerHTML = powers.map(([l,v,c])=>`
+    <div class="power-row" style="color:#F7F1E8;">
+      <span>${l}</span>
+      <div class="power-track" style="background:rgba(255,255,255,.14);"><div class="power-fill" style="width:${v}%;background:${c};"></div></div>
+      <span class="power-val" style="color:#fff;">${v}</span>
+    </div>`).join('');
+
+  const cells = [
+    ['Monthly income', money(p.income)],
+    ['Monthly spending', money(p.monthlyExpenses)],
+    ['Monthly surplus', money(world.monthlySurplus)],
+    ['Cash', moneyShort(p.savings)],
+    ['Investments', moneyShort(p.investments)],
+    ['Debt', moneyShort(p.debt)],
+    ['Net worth', moneyShort(world.netWorth)],
+    ['Investable capacity', moneyShort(world.monthlyInvestmentCapacity) + '/mo'],
+  ];
+  document.getElementById('worldGrid').innerHTML = cells.map(([l,v])=>`
+    <div class="world-cell"><div class="lbl">${l}</div><div class="val">${v}</div></div>`).join('');
+
+  const insights = D.generateInsights(p, world);
+  const journeyStrategy = localStorage.getItem('lokhi_journey_strategy');
+  if(journeyStrategy) insights.unshift(`You completed the guided journey — your strategy: ${journeyStrategy}.`);
+  document.getElementById('insightList').innerHTML = insights.map(i=>`
+    <div class="insight"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/sparkles.svg');"></span><span>${i}</span></div>`).join('');
+
+  renderJourney();
+  renderWeekly();
+}
+
+function renderJourney(){
+  const efDone = localStorage.getItem('lokhi_ef_done') === 'true';
+  const nisaDone = localStorage.getItem('lokhi_nisa_done') === 'true';
+  const nisaPct = parseInt(localStorage.getItem('lokhi_nisa_pct') || '45', 10);
+  const taxablePct = parseInt(localStorage.getItem('lokhi_taxable_pct') || '16', 10);
+  const order = ['emergency_fund','nisa_ninja','buy_home_proxy','wealth_builder','retirement_freedom'];
+  const items = [
+    {icon:'🛟', title:'Emergency Fund', pct: efDone?100:70, status: efDone?'done':'done', tab:'playground'},
+    {icon:'🌱', title:'NISA Ninja', pct: nisaDone?nisaPct:45, status: nisaDone? (nisaPct>=90?'done':'active') : 'active', tab:'playground'},
+    {icon:'🏠', title:'Home Quest', pct:18, status:'upcoming', tab:'playground'},
+    {icon:'📈', title:'Wealth Builder', pct: nisaDone?taxablePct:16, status:'upcoming', tab:'playground'},
+    {icon:'🌅', title:'Financial Freedom', pct:8, status:'upcoming', tab:'playground', trophy:true},
+  ];
+  document.getElementById('journeyMap').innerHTML = items.map(it=>`
+    <div class="journey-node ${it.status==='done'?'done':it.status==='active'?'active':''}" data-goto-journey="${it.tab}">
+      <div class="journey-card">
+        <span class="journey-emoji ${it.trophy?'trophy':''}">${it.trophy?'🏆':it.icon}</span>
+        <div class="journey-body">
+          <div class="journey-title">${it.title}</div>
+          <div class="journey-track"><div class="journey-fill" style="width:${it.pct}%;"></div></div>
+        </div>
+        <span class="badge ${it.status==='done'?'badge-moss':it.status==='active'?'badge-coral':'badge-neutral'}">${it.status==='done'?'Done':it.status==='active'?'In progress':'Up next'}</span>
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('[data-goto-journey]').forEach(el=>el.addEventListener('click', ()=>goTo(el.getAttribute('data-goto-journey'))));
+}
+
+let weeklyState = window.APP_STORAGE.getWeeklyState() || D.WEEKLY_MISSIONS.map(m=>({id:m.id, done:m.done}));
+function renderWeekly(){
+  document.getElementById('weeklyMissions').innerHTML = D.WEEKLY_MISSIONS.map(m=>{
+    const st = weeklyState.find(s=>s.id===m.id);
+    const done = st ? st.done : m.done;
+    return `<div class="mission-row">
+      <div class="mission-check ${done?'done':''}" data-mission="${m.id}">${done?'✓':''}</div>
+      <span class="mission-label ${done?'done':''}">${m.label}</span>
+      <span class="mission-xp">+${m.xp} XP</span>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('[data-mission]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const id = el.getAttribute('data-mission');
+      const st = weeklyState.find(s=>s.id===id);
+      const wasDone = st.done;
+      st.done = !st.done;
+      window.APP_STORAGE.saveWeeklyState(weeklyState);
+      const mission = D.WEEKLY_MISSIONS.find(m=>m.id===id);
+      if(!wasDone && st.done) awardXP(mission.xp, `+${mission.xp} XP · ${mission.label}`);
+      renderWeekly();
+      updateWeeklyXpBadge();
+    });
+  });
+  updateWeeklyXpBadge();
+}
+function updateWeeklyXpBadge(){
+  let total = 0;
+  D.WEEKLY_MISSIONS.forEach(m=>{
+    const st = weeklyState.find(s=>s.id===m.id);
+    if(st && st.done) total += m.xp;
+  });
+  document.getElementById('weeklyXpBadge').textContent = `+${total} XP`;
+}
+
+/* ================= XP / LEVEL SYSTEM ================= */
+function awardXP(amount, label){
+  xp += amount;
+  showToast(label || `+${amount} XP`);
+  if(xp >= xpForNext){
+    xp -= xpForNext;
+    level += 1;
+    xpForNext = Math.round(xpForNext * 1.15);
+    document.getElementById('newLevel').textContent = level;
+    document.getElementById('levelUpOverlay').classList.add('show');
+  }
+  renderHome();
+}
+document.getElementById('levelUpClose').addEventListener('click', ()=>document.getElementById('levelUpOverlay').classList.remove('show'));
+
+/* ================= PLAYGROUND: QUESTS ================= */
+function renderQuests(){
+  document.getElementById('questGrid').innerHTML = D.QUESTS.map(q=>{
+    const pct = Math.min(100, Math.round((q.current/q.target)*100));
+    return `<div class="quest-card" data-quest="${q.id}">
+      <div class="quest-top"><span class="quest-emoji">${q.icon}</span><span class="badge badge-neutral">${q.difficulty}</span></div>
+      <div class="quest-title">${q.title}</div>
+      <div class="quest-goal">${q.goal}</div>
+      <div class="quest-track"><div class="quest-fill" style="width:${pct}%;"></div></div>
+      <div class="quest-meta"><span>${pct}%</span><span>+${q.xp} XP</span></div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('[data-quest]').forEach(el=>el.addEventListener('click', ()=>openSimulator(el.getAttribute('data-quest'))));
+}
+
+function renderGoals(){
+  document.getElementById('suggestedGoals').innerHTML = D.SUGGESTED_GOALS.map(g=>`
+    <div class="goal-card"><span class="goal-emoji">🎯</span><div><div class="goal-title">${g}</div></div></div>`).join('');
+
+  const personalized = D.generatePersonalizedGoals(p, world);
+  document.getElementById('personalizedGoals').innerHTML = personalized.map(g=>`
+    <div class="goal-card personalized"><span class="goal-emoji">${g.icon}</span>
+      <div><div class="goal-title">${g.title}</div><div class="goal-reason">${g.reason}</div><span class="why-tag">Why this? Based on your data</span></div>
+    </div>`).join('');
+}
+
+/* ================= SIMULATOR MODAL ================= */
+let activeQuest = null;
+let simUsedOnce = {};
+function openSimulator(id){
+  const q = D.QUESTS.find(x=>x.id===id);
+  activeQuest = q;
+  document.getElementById('simEyebrow').textContent = q.icon + ' Quest simulator';
+  document.getElementById('simTitle').textContent = q.title;
+  document.getElementById('simMonthlyLabel').textContent = q.sim.label;
+
+  const monthly = document.getElementById('simMonthly');
+  monthly.min = q.sim.min; monthly.max = q.sim.max; monthly.step = 5000; monthly.value = q.sim.def;
+
+  const yearsInput = document.getElementById('simYears');
+  const years = q.sim.years || (q.sim.months/12) || 5;
+  yearsInput.value = Math.max(1, Math.round(years));
+
+  const ret = document.getElementById('simReturn');
+  ret.value = q.sim.returnPct;
+
+  document.getElementById('simCurrentVal').textContent = money(p.currentMonthlyInvestment) + '/mo';
+  document.getElementById('simNisaUtil').textContent = Math.round(p.nisaUsage*100) + '%';
+
+  recomputeSim();
+  document.getElementById('simModal').classList.add('open');
+}
+document.getElementById('simClose').addEventListener('click', ()=>document.getElementById('simModal').classList.remove('open'));
+['simMonthly','simYears','simReturn'].forEach(id=>document.getElementById(id).addEventListener('input', recomputeSim));
+
+function projectInvestment(monthly, years, returnPct, start){
+  const n = Math.max(1, Math.round(years*12));
+  const r = returnPct/100/12;
+  let fv = start * Math.pow(1+r, n);
+  fv += r>0 ? monthly*((Math.pow(1+r,n)-1)/r) : monthly*n;
+  return fv;
+}
+
+function recomputeSim(){
+  if(!activeQuest) return;
+  const q = activeQuest;
+  const monthly = parseFloat(document.getElementById('simMonthly').value);
+  const years = parseFloat(document.getElementById('simYears').value);
+  const ret = parseFloat(document.getElementById('simReturn').value);
+
+  document.getElementById('simMonthlyVal').textContent = money(monthly);
+  document.getElementById('simYearsVal').textContent = years + ' years';
+  document.getElementById('simReturnVal').textContent = ret + '%';
+
+  const start = q.current || 0;
+  const currentFv = projectInvestment(q.sim.def, years, q.sim.returnPct, start);
+  const optimizedFv = projectInvestment(monthly, years, ret, start);
+  const diff = optimizedFv - currentFv;
+
+  document.getElementById('simOptimizedVal').textContent = moneyShort(optimizedFv);
+  document.getElementById('simDiffVal').textContent = '+' + moneyShort(Math.max(0,diff));
+
+  const gains = Math.max(0, optimizedFv - start - monthly*years*12);
+  const taxAdv = q.sim.taxAdvantaged ? gains * 0.20315 : 0;
+  document.getElementById('simTaxVal').textContent = moneyShort(taxAdv);
+  document.getElementById('simXpVal').textContent = '+' + q.xp + ' XP';
+
+  if(!simUsedOnce[q.id]){
+    simUsedOnce[q.id] = true;
+  }
+}
+
+document.querySelectorAll('.quick-q button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const qkey = btn.getAttribute('data-q');
+    if(qkey==='plus30') document.getElementById('simMonthly').value = Math.min(document.getElementById('simMonthly').max, parseFloat(document.getElementById('simMonthly').value)+30000);
+    if(qkey==='retire50') document.getElementById('simYears').value = Math.max(1, parseFloat(document.getElementById('simYears').value)-5);
+    if(qkey==='return8') document.getElementById('simReturn').value = 8;
+    recomputeSim();
+  });
+});
+document.getElementById('simSave').addEventListener('click', ()=>{
+  awardXP(activeQuest.xp, `+${activeQuest.xp} XP · ${activeQuest.title} scenario saved`);
+  document.getElementById('simModal').classList.remove('open');
+});
+
+/* ================= OPTIMIZE ================= */
+function renderOptimize(){
+  document.getElementById('intelHeadline').textContent = 'You found ' + money(D.INTELLIGENCE_HERO.amount);
+  document.getElementById('intelSub').textContent = D.INTELLIGENCE_HERO.sub;
+  document.getElementById('intelBasedOn').innerHTML = D.INTELLIGENCE_HERO.basedOn.map(b=>`<li>${b}</li>`).join('');
+
+  document.getElementById('opportunityGrid').innerHTML = D.OPPORTUNITIES.map(o=>{
+    const effortClass = o.effort === 'Low' ? 'effort-low' : o.effort === 'High' ? 'effort-high' : 'effort-medium';
+    return `
+    <div class="opp-card">
+      <div class="opp-head"><span class="opp-emoji">${o.icon}</span><span class="opp-title">${o.title}</span></div>
+      <div class="opp-stats-row">
+        <div class="opp-stat"><span class="lbl">Effort required</span><span class="badge ${effortClass}">${o.effort}</span></div>
+        <div class="opp-stat"><span class="lbl">Lifetime value</span><span class="val">${money(o.lifetimeValue)}</span></div>
+      </div>
+      <div class="opp-row"><span class="k">Why</span><span class="v">${o.why}</span></div>
+      <div class="opp-row"><span class="k">Benefit</span><span class="v">${o.benefit}</span></div>
+      <div class="opp-row"><span class="k">Action</span><span class="v">${o.action}</span></div>
+      <div class="opp-row"><span class="k">Confidence</span><span class="v">${o.confidence}</span></div>
+      <div class="opp-row"><span class="k">Downside</span><span class="v">${o.downside}</span></div>
+      <button class="btn btn-ghost btn-sm btn-block" style="margin-top:12px;">See how</button>
+    </div>`;
+  }).join('');
+}
+
+/* ================= GROW ================= */
+function renderGrow(){
+  const garden = D.getWealthGarden(p);
+  const maxSize = 64, minSize = 28;
+  const maxPct = Math.max(...garden.map(g=>g.pct));
+  document.getElementById('wealthGarden').innerHTML = garden.map(g=>{
+    const size = Math.round(minSize + (g.pct/maxPct)*(maxSize-minSize));
+    return `<div class="garden-item">
+      <span class="garden-emoji" style="font-size:${size}px;">${g.icon}</span>
+      <div class="garden-label">${g.label}</div>
+      <div class="garden-val">${Math.round(g.pct*100)}%</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('investmentExplorer').innerHTML = D.INVESTMENT_CATEGORIES.map(c=>`
+    <div class="inv-cat-card"><span class="icon-big">${c.icon}</span><div class="name">${c.name}</div><div class="blurb">${c.blurb}</div></div>`).join('');
+
+  document.getElementById('themePills').innerHTML = D.MARKET_THEMES.map(t=>`
+    <button class="theme-pill" data-theme="${t.id}">${t.name} <span style="opacity:.6;">${t.exposure}%</span></button>`).join('');
+  document.querySelectorAll('.theme-pill').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.theme-pill').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const t = D.MARKET_THEMES.find(x=>x.id===btn.getAttribute('data-theme'));
+      const detail = document.getElementById('themeDetail');
+      detail.style.display = 'block';
+      detail.innerHTML = `
+        <h3 style="margin-bottom:10px;">${t.name}</h3>
+        <p style="font-size:13px;color:var(--text-body);line-height:1.6;margin-bottom:12px;"><strong>Why it matters:</strong> ${t.why}</p>
+        <div class="result-grid">
+          <div class="result-cell"><div class="lbl">Your exposure</div><div class="val">${t.exposure}%</div></div>
+          <div class="result-cell"><div class="lbl">Risk</div><div class="val" style="font-size:14px;">${t.risk}</div></div>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">${t.consideration}</p>`;
+    });
+  });
+
+  document.getElementById('investmentQuests').innerHTML = D.INVESTMENT_QUESTS.map(q=>`
+    <div class="iq-card"><span class="e">${q.icon}</span><div style="flex:1;"><div style="font-weight:700;font-size:14px;">${q.title}</div><div style="font-size:12px;color:var(--text-muted);">${q.desc}</div></div><span class="badge badge-gold">+${q.xp} XP</span></div>`).join('');
+}
+
+/* ================= PROFILE ================= */
+function renderProfile(){
+  const selected = window.APP_STORAGE.getAvatar();
+  document.getElementById('profileAvatarGrid').innerHTML = D.AVATARS.map(a=>`
+    <div class="avatar-card ${a.id===selected?'selected':''}" data-avatar="${a.id}" style="--avatar-color:${a.color};">
+      <span class="avatar-emoji">${a.icon}</span>
+      <div class="avatar-name">${a.name}</div>
+      <div class="avatar-blurb">${a.blurb}</div>
+    </div>`).join('');
+  document.querySelectorAll('#profileAvatarGrid .avatar-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      window.APP_STORAGE.saveAvatar(card.getAttribute('data-avatar'));
+      renderProfile();
+      renderHome();
+      showToast('Avatar updated');
+    });
+  });
+
+  document.getElementById('fpTotal').textContent = p.financialPower.total + ' / 100';
+  const fp = [
+    ['Savings', p.financialPower.savings, 'var(--moss-growth)'],
+    ['Investing', p.financialPower.investing, 'var(--ink-indigo)'],
+    ['Optimization', p.financialPower.optimization, 'var(--gold-thread)'],
+    ['Protection', p.financialPower.protection, 'var(--denim-ledger)'],
+    ['Goal Readiness', p.financialPower.goalReadiness, 'var(--coral-pulse)'],
+  ];
+  document.getElementById('financialPowerBars').innerHTML = fp.map(([l,v,c])=>`
+    <div class="power-row">
+      <span>${l}</span>
+      <div class="power-track"><div class="power-fill" style="width:${v}%;background:${c};"></div></div>
+      <span class="power-val">${v}</span>
+    </div>`).join('');
+
+  document.getElementById('badgeGrid').innerHTML = D.BADGES.map(b=>`
+    <div class="badge-tile ${b.earned?'':'locked'}"><div class="e">${b.icon}</div><div class="n">${b.name}</div></div>`).join('');
+}
+
+const socialToggle = document.getElementById('socialToggle');
+let socialOn = false;
+socialToggle.addEventListener('click', ()=>{
+  socialOn = !socialOn;
+  socialToggle.classList.toggle('on', socialOn);
+  document.getElementById('socialText').textContent = socialOn
+    ? "You're ahead of 72% of your friends in investment consistency. Only streaks, XP, and consistency are ever shared — never balances or transactions."
+    : "Opt in to see \"You're ahead of 72% of your friends in investment consistency.\" No balances, income, or transactions are ever shared.";
+});
+
+/* ================= FAIRY ================= */
+const fairy = document.getElementById('fairy');
+document.getElementById('fairyFab').addEventListener('click', ()=>fairy.classList.toggle('open'));
+document.getElementById('fairyClose').addEventListener('click', ()=>fairy.classList.remove('open'));
+
+/* ================= TOAST ================= */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window.__toastT);
+  window.__toastT = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* ================= GUIDED FINANCIAL JOURNEY (in-app, natural flow) ================= */
+/* Persona model: cash-rich, underinvested first-time user. Runs inside index.html as an
+   overlay — auto-launches once for a new profile, resumable via the Home tab card,
+   and feeds real XP + Home journey status directly into the live app when finished. */
+const GJ_INCOME = 900000, GJ_ESSENTIAL = 300000, GJ_LIFESTYLE = 170000;
+const GJ_EXPENSES = GJ_ESSENTIAL + GJ_LIFESTYLE;
+const GJ_SURPLUS = GJ_INCOME - GJ_EXPENSES;
+const GJ_ANNUAL_SURPLUS = GJ_SURPLUS * 12;
+const GJ_CASH = 8000000;
+const GJ_NISA_LIMIT = 3600000, GJ_NISA_CURRENT = 0, GJ_NISA_LUMP_DEFAULT = 2000000;
+
+const GJ_COMFORT_LEVELS = [ {id:'lean', label:'Lean', mult:3}, {id:'standard', label:'Standard', mult:6}, {id:'safe', label:'Extra-safe', mult:9} ];
+const GJ_NISA_STRATEGIES = [
+  { id:'steady', name:'Steady Grower', icon:'🌱', desc:'Long-term diversified investing. Lower movement, lower ceiling.' },
+  { id:'balanced', name:'Balanced Builder', icon:'⚖️', desc:'Balances growth and stability. A reasonable middle path.' },
+  { id:'growth', name:'Growth Seeker', icon:'🚀', desc:'Higher potential growth, higher potential volatility.' },
+];
+const GJ_TAXABLE_STRATEGIES = [
+  { id:'builder', name:'Long-Term Builder', icon:'🌱', desc:'Diversified long-term growth.', low:3, high:6, alloc:{global:55,japan:15,bonds:25,other:5} },
+  { id:'balanced', name:'Balanced', icon:'⚖️', desc:'Balance growth and stability.', low:4, high:7, alloc:{global:60,japan:15,bonds:15,other:10} },
+  { id:'growth', name:'Growth', icon:'🚀', desc:'Higher exposure to growth assets.', low:5, high:9, alloc:{global:65,japan:15,bonds:5,other:15} },
+];
+const GJ_CASH_PURPOSES = [
+  {id:'home', label:'🏠 Home', horizon:'near'}, {id:'car', label:'🚗 Car', horizon:'near'},
+  {id:'travel', label:'✈️ Travel', horizon:'near'}, {id:'family', label:'👶 Family', horizon:'near'},
+  {id:'education', label:'🎓 Education', horizon:'near'}, {id:'business', label:'💼 Business', horizon:'near'},
+  {id:'longterm', label:'📈 Long-term wealth', horizon:'long'}, {id:'security', label:'🛟 Extra security', horizon:'liquid'},
+  {id:'unsure', label:"🤷 I don't know yet", horizon:'liquid'},
+];
+const GJ_PROTECTION_ITEMS = [
+  { item:'Employer health insurance', status:'covered', note:'Provided through your job' },
+  { item:'National pension (nenkin)', status:'covered', note:'Standard government coverage' },
+  { item:'Life insurance', status:'gap', note:'No policy found in your connected accounts' },
+  { item:'Income / disability protection', status:'gap', note:'Not currently covered' },
+];
+const GJ_STAGES = ['Understand','Protect','Plan','NISA Ninja','Build','Grow','Optimize','Financial Freedom'];
+const GJ_FAIRY_QUOTES = {
+  intro: "Hello — I'm your Fairy Godmother. Let's take this one step at a time.",
+  map: "Nothing here is a judgment. It's just where things stand today.",
+  insight: "You have enough cash to cover your emergency fund and still have money left for longer-term goals. Let's decide what that money should do.",
+  protect_lesson: "Before we make your money grow, let's make sure you're protected if something unexpected happens.",
+  protect_action: "There's no single right number — this is about what lets you sleep at night.",
+  protect_complete: "That's your foundation. Everything else builds on top of this.",
+  cashflow: "This is the number that matters most — not your income, what's left over.",
+  moneymap: "Every yen doesn't need a job today. But it helps to know which ones do.",
+  nisa_lesson: "You're already investing in spirit — you just haven't told your money where to go yet.",
+  nisa_quests: "Five small steps, not one big decision.",
+  nisa_strategy: "There's no wrong answer here — only what fits how you feel about ups and downs.",
+  nisa_progress: "Slower and steady still gets you there. This just tells you when.",
+  nisa_complete: "You've made your NISA work for you. Now let's figure out what to do with the money that doesn't fit there.",
+  remaining_cash: "This is the moment most people skip. You don't have to decide everything today.",
+  cash_destination: "Not all money should be invested the same way — and that's not indecision, that's strategy.",
+  taxable_lesson: "This is the part where your money starts working as hard as you do.",
+  taxable_strategy: "Your portfolio is starting to take shape. Want to see how this could affect your retirement timeline later?",
+  portfolio: "This is a starting point, not a commitment carved in stone.",
+  protection: "Knowing what's already covered is just as valuable as knowing what isn't.",
+  final: "Look at what you built in the last few minutes. That's not nothing.",
+};
+
+const gjState = { comfort: 'standard', nisaStrategy: null, nisaMonthly: 100000, cashPurpose: null, taxableStrategy: null };
+let gjIdx = 0;
+
+function efTarget(){ const c = GJ_COMFORT_LEVELS.find(c=>c.id===gjState.comfort); return GJ_ESSENTIAL * c.mult; }
+function cashAfterEF(){ return GJ_CASH - efTarget(); }
+function nisaGap(){ return GJ_NISA_LIMIT - GJ_NISA_CURRENT - GJ_NISA_LUMP_DEFAULT; }
+function nisaMonthsToTarget(){ return Math.ceil(nisaGap() / gjState.nisaMonthly); }
+function cashRemaining(){ return cashAfterEF() - GJ_NISA_LUMP_DEFAULT; }
+function horizonSplit(){
+  const purpose = GJ_CASH_PURPOSES.find(p=>p.id===gjState.cashPurpose) || {horizon:'liquid'};
+  let longPct = 0.4;
+  if(purpose.horizon==='near') longPct = 0.4;
+  if(purpose.horizon==='long') longPct = 0.95;
+  if(purpose.horizon==='liquid') longPct = 0.15;
+  const longTerm = cashRemaining() * longPct;
+  return { longTerm, nearTerm: cashRemaining() - longTerm, longPct };
+}
+function gjProjectInvestment(lump, monthly, years, returnPct){
+  const n = years*12, r = returnPct/100/12;
+  let fv = lump * Math.pow(1+r, n);
+  fv += r>0 ? monthly*((Math.pow(1+r,n)-1)/r) : monthly*n;
+  return fv;
+}
+function gjNisaStrat(){ return GJ_NISA_STRATEGIES.find(s=>s.id===gjState.nisaStrategy) || GJ_NISA_STRATEGIES[1]; }
+
+const GJ_SLIDES = [
+{ id:'intro', stage:0, title:"Let's understand your financial world", render: () => `
+  <p style="font-size:15px;line-height:1.7;color:var(--text-body);">You have a stable job, a steady salary, a lot of cash sitting in one account, an underused NISA allowance, and no real investment strategy yet.</p>
+  <p style="font-size:15px;line-height:1.7;color:var(--text-body);">That's not a problem of not having money. It's a problem of not yet knowing how to structure, protect, and grow the money you already have. That's what the next few minutes are for.</p>
+  <div class="card card--sunk" style="margin-top:20px;">
+    <span class="eyebrow" style="display:block;margin-bottom:10px;">You can always add more later from Profile:</span>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <span class="badge badge-neutral">🏦 Connect bank accounts</span>
+      <span class="badge badge-neutral">📄 Upload statements</span>
+      <span class="badge badge-neutral">📈 Connect investments</span>
+      <span class="badge badge-neutral">🛡️ Add insurance</span>
+    </div>
+  </div>
+  <p style="margin-top:18px;font-size:13px;color:var(--text-muted);">You only need to do this once — we'll use it to personalize everything that comes next.</p>
+`},
+{ id:'map', stage:0, title:"Here's where your money is today", render: () => `
+  <div class="world-grid">
+    <div class="world-cell"><div class="lbl">Money In</div><div class="val">${money(GJ_INCOME)}/mo</div></div>
+    <div class="world-cell"><div class="lbl">Money Out</div><div class="val">${money(GJ_EXPENSES)}/mo</div></div>
+    <div class="world-cell"><div class="lbl">Cash</div><div class="val">${money(GJ_CASH)}</div></div>
+    <div class="world-cell"><div class="lbl">Investments</div><div class="val">¥0</div></div>
+    <div class="world-cell"><div class="lbl">Protection</div><div class="val" style="font-size:14px;">No fund yet</div></div>
+    <div class="world-cell"><div class="lbl">NISA used</div><div class="val">0%</div></div>
+  </div>
+  <p style="margin-top:18px;font-size:13px;color:var(--text-muted);line-height:1.6;">Goals on file: buying a home, general long-term security, and figuring out investing — nothing structured yet.</p>
+`},
+{ id:'insight', stage:0, title:"You have more cash sitting idle than you likely need", render: () => `
+  <div class="card" style="border:1px solid var(--coral-pulse-12);background:var(--coral-pulse-12);">
+    <div style="font:800 30px var(--font-display-latin);color:var(--coral-pulse-press);">${money(GJ_CASH)}</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-top:2px;">sitting in cash right now</p>
+    <p style="font-size:14px;line-height:1.6;margin-top:14px;">Based on essential expenses (${money(GJ_ESSENTIAL)}/mo), you likely only need about <strong>${money(GJ_ESSENTIAL*6)}</strong> readily available.</p>
+    <div class="card--gradient" style="border-radius:16px;padding:16px;margin-top:14px;">
+      <span class="eyebrow" style="color:#A9B2C4;">That means</span>
+      <div style="font:800 26px var(--font-display-latin);margin-top:4px;">${money(GJ_CASH - GJ_ESSENTIAL*6)}</div>
+      <p style="font-size:13px;color:#A9B2C4;margin-top:2px;">could be given a job.</p>
+    </div>
+  </div>
+  <p style="margin-top:16px;font-size:13px;color:var(--text-muted);">This isn't a warning — it's the moment this gets personal. Let's figure out where it should go.</p>
+`},
+{ id:'protect_lesson', stage:1, title:'Before we grow it, let\u2019s protect it', render: () => `
+  <p style="font-size:14px;line-height:1.7;">🛟 <strong>Emergency Fund</strong> — money kept aside for the unexpected:</p>
+  <div class="grid-2" style="margin:14px 0;">
+    <div class="badge badge-neutral" style="height:auto;padding:10px 12px;display:block;">Job loss</div>
+    <div class="badge badge-neutral" style="height:auto;padding:10px 12px;display:block;">Medical expenses</div>
+    <div class="badge badge-neutral" style="height:auto;padding:10px 12px;display:block;">Emergency travel</div>
+    <div class="badge badge-neutral" style="height:auto;padding:10px 12px;display:block;">Major repairs</div>
+  </div>
+  <p style="font-size:13px;color:var(--text-muted);line-height:1.6;">This money isn't meant to maximize returns. Its job is to keep you safe — easily accessible, low risk, separate from everyday spending.</p>
+`},
+{ id:'protect_action', stage:1, title:'How much would you need?', render: () => `
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">Essential monthly expenses: <strong>${money(GJ_ESSENTIAL)}</strong></p>
+  <div class="comfort-row">
+    ${GJ_COMFORT_LEVELS.map(c=>`<button class="comfort-btn ${gjState.comfort===c.id?'active':''}" data-comfort="${c.id}">${c.label}<br><span style="opacity:.7;">${c.mult}× expenses</span></button>`).join('')}
+  </div>
+  <div class="safety-track"><div class="safety-fill" style="width:100%;"></div></div>
+  <div class="safety-labels"><span>¥0</span><span>${money(efTarget())}</span></div>
+  <p style="margin-top:18px;font-size:14px;">Recommended reserve: <strong>${money(efTarget())}</strong></p>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:6px;">Kept in an easily-accessible, low-risk account — separate from spending money.</p>
+`, bind: () => { document.querySelectorAll('[data-comfort]').forEach(b=>b.addEventListener('click', ()=>{ gjState.comfort = b.getAttribute('data-comfort'); renderGJSlide(); })); } },
+{ id:'protect_complete', stage:1, title:'QUEST COMPLETE — your safety net is ready', render: () => `
+  <div class="card" style="text-align:center;background:var(--stage-ontrack-tint);border:none;">
+    <div style="font-size:40px;">🛟</div>
+    <div style="font:800 24px var(--font-display-latin);color:var(--moss-growth);margin-top:8px;">${money(efTarget())} secured</div>
+    <p style="font-size:13px;color:var(--text-body);margin-top:6px;">Designated from cash, separate from everyday spending.</p>
+    <div style="margin-top:14px;"><span class="badge badge-gold">+250 XP</span></div>
+  </div>
+  <p style="margin-top:16px;font-size:13px;color:var(--text-muted);">🔓 Investment planning unlocked. Remaining cash: <strong>${money(cashAfterEF())}</strong></p>
+`, onEnter: () => { if(!gjState.__efXP){ gjState.__efXP = true; awardXP(250, '+250 XP · Emergency Fund secured'); } } },
+{ id:'cashflow', stage:2, title:'Understanding your cash flow', render: () => `
+  <div class="card">
+    <div class="ba-row"><span>Monthly income</span><span class="money">${money(GJ_INCOME)}</span></div>
+    <div class="ba-row"><span>− Essential expenses</span><span class="money">${money(GJ_ESSENTIAL)}</span></div>
+    <div class="ba-row"><span>− Lifestyle expenses</span><span class="money">${money(GJ_LIFESTYLE)}</span></div>
+    <div class="ba-row" style="border:none;font-weight:800;padding-top:14px;"><span>= Monthly investable surplus</span><span class="money" style="color:var(--moss-growth);">${money(GJ_SURPLUS)}</span></div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;margin-top:16px;">Annualized, that's <strong>${money(GJ_ANNUAL_SURPLUS)}/year</strong> — your <strong>Financial Fuel</strong> for everything that follows.</p>
+`},
+{ id:'moneymap', stage:2, title:'Give every yen a job', render: () => {
+  const buckets = [ {icon:'🛟', label:'Protect', pct:0, amount:0}, {icon:'🎯', label:'Near-term', pct:19, amount: Math.round(GJ_SURPLUS*0.19)}, {icon:'🌱', label:'Grow (NISA)', pct:23, amount: Math.round(GJ_SURPLUS*0.23)}, {icon:'📈', label:'Build (taxable)', pct:35, amount: Math.round(GJ_SURPLUS*0.35)}, {icon:'✨', label:'Live', pct:23, amount: Math.round(GJ_SURPLUS*0.23)} ];
+  return `
+  <div class="alloc-bar">${buckets.map((b,i)=>`<div style="width:${b.pct||1}%;background:${['transparent','var(--denim-ledger)','var(--moss-growth)','var(--ink-indigo)','var(--gold-thread)'][i]};"></div>`).join('')}</div>
+  <div class="grid-2" style="margin-top:12px;">${buckets.map(b=>`<div class="world-cell"><div class="lbl">${b.icon} ${b.label}</div><div class="val" style="font-size:15px;">${b.amount?money(b.amount)+'/mo':'—'}</div></div>`).join('')}</div>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:14px;line-height:1.6;">Personalized — not a universal percentage. This reflects your stable income, unused NISA room, and a home goal that isn't urgent yet.</p>`;
+}},
+{ id:'nisa_lesson', stage:3, title:'Your next opportunity: make your NISA work harder', render: () => `
+  <div class="card--soft" style="border-radius:16px;padding:16px;margin-bottom:14px;"><span class="eyebrow" style="display:block;margin-bottom:6px;">What is NISA?</span><p style="font-size:13px;line-height:1.6;margin:0;">A Japanese account type that lets eligible investments grow and be sold without the usual ~20% tax on gains, up to an annual limit.</p></div>
+  <div class="card--soft" style="border-radius:16px;padding:16px;"><span class="eyebrow" style="display:block;margin-bottom:6px;">Why does it matter for you?</span><p style="font-size:13px;line-height:1.6;margin:0;">You're holding ${money(GJ_CASH)} in cash with 0% of this year's ¥3.6M NISA allowance used — that's tax-advantaged room expiring unused.</p></div>
+`},
+{ id:'nisa_quests', stage:3, title:'The NISA quest line', render: () => `
+  <div class="quest-line">
+    <div class="quest-line-item"><span>Understand NISA</span><span class="badge badge-gold">+50 XP</span></div>
+    <div class="quest-line-item"><span>Choose your investment strategy</span><span class="badge badge-gold">+100 XP</span></div>
+    <div class="quest-line-item"><span>Choose your allocation</span><span class="badge badge-gold">+150 XP</span></div>
+    <div class="quest-line-item"><span>Make your first investment</span><span class="badge badge-gold">+200 XP</span></div>
+    <div class="quest-line-item"><span>Build your monthly contribution</span><span class="badge badge-gold">+250 XP</span></div>
+  </div>
+`, onEnter: () => { if(!gjState.__nisaUnderstandXP){ gjState.__nisaUnderstandXP = true; awardXP(50, '+50 XP · Understand NISA'); } } },
+{ id:'nisa_strategy', stage:3, title:'Choose your NISA strategy', render: () => `
+  <div class="strategy-grid">${GJ_NISA_STRATEGIES.map(s=>`<div class="strategy-card ${gjState.nisaStrategy===s.id?'selected':''}" data-nisa-strat="${s.id}"><div class="e">${s.icon}</div><div class="n">${s.name}</div><div class="d">${s.desc}</div></div>`).join('')}</div>
+  <p style="font-size:12px;color:var(--text-muted);">No option is universally "best" — it depends on your comfort with volatility and time horizon.</p>
+`, bind: () => { document.querySelectorAll('[data-nisa-strat]').forEach(el=>el.addEventListener('click', ()=>{ gjState.nisaStrategy = el.getAttribute('data-nisa-strat'); if(!gjState.__nisaStratXP){ gjState.__nisaStratXP = true; awardXP(100, '+100 XP · NISA strategy chosen'); } renderGJSlide(); })); } },
+{ id:'nisa_progress', stage:3, title:'Your NISA journey', render: () => `
+  <div class="grid-2" style="margin-bottom:16px;">
+    <div class="world-cell"><div class="lbl">Immediate allocation</div><div class="val">${money(GJ_NISA_LUMP_DEFAULT)}</div></div>
+    <div class="world-cell"><div class="lbl">Remaining to target</div><div class="val">${money(nisaGap())}</div></div>
+  </div>
+  <div class="slider-row">
+    <div class="srow-head"><span>Monthly contribution</span><span class="srow-val" id="gjNisaMonthlyVal">${money(gjState.nisaMonthly)}</span></div>
+    <input type="range" id="gjNisaMonthlySlider" min="50000" max="200000" step="10000" value="${gjState.nisaMonthly}">
+  </div>
+  <p style="font-size:14px;margin-top:10px;">At this pace, the remaining ${money(nisaGap())} is filled in <strong id="gjNisaMonthsLabel">${nisaMonthsToTarget()} months</strong>.</p>
+`, bind: () => { document.getElementById('gjNisaMonthlySlider').addEventListener('input', (e)=>{ gjState.nisaMonthly = parseFloat(e.target.value); document.getElementById('gjNisaMonthlyVal').textContent = money(gjState.nisaMonthly); document.getElementById('gjNisaMonthsLabel').textContent = nisaMonthsToTarget() + ' months'; if(!gjState.__nisaAllocXP){ gjState.__nisaAllocXP = true; awardXP(150, '+150 XP · Allocation chosen'); } }); } },
+{ id:'nisa_complete', stage:3, title:'🌱 NISA NINJA — your strategy is deployed', render: () => `
+  <div class="card" style="text-align:center;background:var(--stage-exceeding-tint);border:none;">
+    <div style="font-size:40px;">🌱</div>
+    <div style="font:800 22px var(--font-display-latin);color:var(--gold-thread);margin-top:6px;">Amount invested: ${money(GJ_NISA_LUMP_DEFAULT)}</div>
+    <p style="font-size:13px;margin-top:6px;">Strategy: <strong>${gjNisaStrat().name}</strong> · Monthly: ${money(gjState.nisaMonthly)} · Target reached in ~${nisaMonthsToTarget()} months</p>
+    <div style="margin-top:12px;"><span class="badge badge-gold">+500 XP</span></div>
+  </div>
+  <p style="margin-top:16px;font-size:13px;color:var(--text-muted);">📈 Unlocked: "What should your remaining cash do?"</p>
+`, onEnter: () => { if(!gjState.__nisaCompleteXP){ gjState.__nisaCompleteXP = true; awardXP(200, '+200 XP · First NISA investment'); setTimeout(()=>awardXP(500, '+500 XP · NISA Ninja!'), 900); } } },
+{ id:'remaining_cash', stage:4, title:'You still have cash. What is it for?', render: () => `
+  <p style="font-size:14px;">After the emergency fund and NISA, this money still has work to do:</p>
+  <div class="card" style="text-align:center;margin:14px 0;"><div style="font:800 32px var(--font-display-latin);color:var(--text-heading);">${money(cashRemaining())}</div></div>
+  <div>${GJ_CASH_PURPOSES.map(p=>`<span class="chip-choice ${gjState.cashPurpose===p.id?'selected':''}" data-purpose="${p.id}">${p.label}</span>`).join('')}</div>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:14px;">You should never be forced to invest money you may need soon.</p>
+`, bind: () => { document.querySelectorAll('[data-purpose]').forEach(el=>el.addEventListener('click', ()=>{ gjState.cashPurpose = el.getAttribute('data-purpose'); renderGJSlide(); })); } },
+{ id:'cash_destination', stage:4, title:'Not all money should be invested the same way', render: () => {
+  const split = horizonSplit(); const purpose = GJ_CASH_PURPOSES.find(p=>p.id===gjState.cashPurpose);
+  return `
+  <div class="grid-2">
+    <div class="world-cell"><div class="lbl">Needed soon-ish${purpose?' · '+purpose.label:''}</div><div class="val">${money(split.nearTerm)}</div></div>
+    <div class="world-cell"><div class="lbl">Not needed long-term</div><div class="val">${money(split.longTerm)}</div></div>
+  </div>
+  <p style="font-size:13px;line-height:1.6;margin-top:16px;">Time horizon determines strategy: money needed soon stays liquid and low-risk. Money with 10+ years ahead of it can take on long-term, growth-oriented investing.</p>
+  ${split.longTerm < 500000 ? `<p style="font-size:12px;color:var(--text-muted);margin-top:10px;">We'll still show you what long-term investing could look like, illustratively.</p>` : ''}`;
+}},
+{ id:'taxable_lesson', stage:4, title:'Your next level: build beyond NISA', render: () => `
+  <p style="font-size:14px;line-height:1.7;">Why invest outside NISA? Because your long-term investable assets exceed your tax-advantaged capacity.</p>
+  <div class="grid-2" style="margin-top:14px;">
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Diversification</span>
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Asset allocation</span>
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Rebalancing</span>
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Fees &amp; tax drag</span>
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Volatility</span>
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Long-term compounding</span>
+  </div>
+`},
+{ id:'taxable_strategy', stage:5, title:'Choose your long-term strategy', render: () => {
+  const split = horizonSplit(); const strat = GJ_TAXABLE_STRATEGIES.find(s=>s.id===gjState.taxableStrategy); const monthlyBuild = Math.round(GJ_SURPLUS*0.35);
+  const rows = strat ? [5,10,20].map(y=>{ const lo = gjProjectInvestment(split.longTerm, monthlyBuild, y, strat.low); const hi = gjProjectInvestment(split.longTerm, monthlyBuild, y, strat.high); return `<div class="scenario-cell"><div class="yrs">${y} years</div><div class="rng">${money(lo)}–${money(hi)}</div></div>`; }).join('') : '';
+  return `
+  <div class="strategy-grid">${GJ_TAXABLE_STRATEGIES.map(s=>`<div class="strategy-card ${gjState.taxableStrategy===s.id?'selected':''}" data-tax-strat="${s.id}"><div class="e">${s.icon}</div><div class="n">${s.name}</div><div class="d">${s.desc}</div></div>`).join('')}</div>
+  <p style="font-size:13px;margin-top:10px;">Investing ${money(split.longTerm)} lump sum + ~${money(monthlyBuild)}/mo:</p>
+  <div class="scenario-table">${rows || '<p style="grid-column:1/-1;font-size:12px;color:var(--text-muted);">Pick a strategy above to see scenario ranges.</p>'}</div>
+  <p style="font-size:11px;color:var(--text-muted);">Scenario ranges, not promises — real returns vary year to year.</p>`;
+}, bind: () => { document.querySelectorAll('[data-tax-strat]').forEach(el=>el.addEventListener('click', ()=>{ gjState.taxableStrategy = el.getAttribute('data-tax-strat'); if(!gjState.__taxStratXP){ gjState.__taxStratXP = true; awardXP(150, '+150 XP · Long-term strategy chosen'); } renderGJSlide(); })); } },
+{ id:'portfolio', stage:5, title:'Your first portfolio', render: () => {
+  const strat = GJ_TAXABLE_STRATEGIES.find(s=>s.id===gjState.taxableStrategy) || GJ_TAXABLE_STRATEGIES[1]; const a = strat.alloc;
+  const colors = {global:'var(--ink-indigo)', japan:'var(--coral-pulse)', bonds:'var(--moss-growth)', other:'var(--gold-thread)'};
+  const labels = {global:'Global equities', japan:'Japan equities', bonds:'Bonds / defensive', other:'Other / alternatives'};
+  return `
+  <span class="eyebrow" style="display:block;margin-bottom:6px;">Your ${strat.name} Portfolio</span>
+  <div class="alloc-bar">${Object.keys(a).map(k=>`<div style="width:${a[k]}%;background:${colors[k]};"></div>`).join('')}</div>
+  <div class="alloc-legend">${Object.keys(a).map(k=>`<span><span class="dot" style="background:${colors[k]};"></span>${labels[k]} — ${a[k]}%</span>`).join('')}</div>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:16px;line-height:1.6;">Personalized based on risk tolerance, time horizon, existing NISA holdings, and income stability. Nothing here is mandatory — adjust it any time in the Playground.</p>`;
+}, onEnter: () => { if(!gjState.__portfolioXP){ gjState.__portfolioXP = true; awardXP(200, '+200 XP · Portfolio created'); } } },
+{ id:'protection', stage:6, title:'One more thing — are you protected?', render: () => `
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">This checks what's already covered before suggesting anything new — an intelligence feature, not a sales funnel.</p>
+  <div class="card">${GJ_PROTECTION_ITEMS.map(i=>`<div class="protect-row"><span style="font-size:13px;">${i.item}<br><span style="font-size:11px;color:var(--text-muted);">${i.note}</span></span><span class="badge ${i.status==='covered'?'badge-moss':'badge-coral'}">${i.status==='covered'?'Covered':'Gap'}</span></div>`).join('')}</div>
+`},
+{ id:'final', stage:7, title:'Your money has a plan', render: () => {
+  const split = horizonSplit(); const strat = GJ_TAXABLE_STRATEGIES.find(s=>s.id===gjState.taxableStrategy) || GJ_TAXABLE_STRATEGIES[1];
+  return `
+  <div class="before-after">
+    <div class="ba-col ba-before"><span class="eyebrow" style="display:block;margin-bottom:10px;">Your old world</span>
+      <div class="ba-row"><span>Cash</span><span>${money(GJ_CASH)}</span></div>
+      <div class="ba-row"><span>Invested</span><span>¥0</span></div>
+      <div class="ba-row"><span>NISA</span><span>Unused</span></div>
+      <div class="ba-row" style="border:none;"><span>Strategy</span><span>None</span></div>
+    </div>
+    <div class="ba-col ba-after"><span class="eyebrow" style="display:block;margin-bottom:10px;color:#DDEFE2;">Your new world</span>
+      <div class="ba-row">🛟 Emergency Fund<span>${money(efTarget())}</span></div>
+      <div class="ba-row">🌱 NISA<span>${money(GJ_NISA_LUMP_DEFAULT)}+</span></div>
+      <div class="ba-row">📈 Long-term Investments<span>${money(split.longTerm)}</span></div>
+      <div class="ba-row" style="border:none;">🏠 Near-term Goals<span>${money(split.nearTerm)}</span></div>
+    </div>
+  </div>
+  <div class="card" style="text-align:center;"><span class="eyebrow" style="display:block;">Your Financial Strategy</span><div style="font:800 22px var(--font-display-latin);margin-top:4px;">NISA: ${gjNisaStrat().name} · Long-term: ${strat.name}</div></div>
+  <div class="section-block" style="margin-top:20px;"><h3 style="margin-bottom:10px;">Your next milestones</h3>
+    <ol style="font-size:13px;line-height:2;color:var(--text-body);padding-left:20px;"><li>Maintain emergency fund</li><li>Continue monthly NISA contributions</li><li>Build taxable portfolio</li><li>Review insurance</li><li>Rebalance periodically</li><li>Revisit goals when life changes</li></ol>
+  </div>
+  <button class="btn btn-primary btn-block" style="margin-top:10px;height:56px;font-size:16px;" id="gjFinishBtn">Take me to my plan →</button>`;
+}, bind: () => { document.getElementById('gjFinishBtn').addEventListener('click', gjFinish); } },
+];
+
+function gjFinish(){
+  const strat = GJ_TAXABLE_STRATEGIES.find(s=>s.id===gjState.taxableStrategy) || GJ_TAXABLE_STRATEGIES[1];
+  localStorage.setItem('lokhi_ef_done','true');
+  localStorage.setItem('lokhi_ef_amount', String(efTarget()));
+  localStorage.setItem('lokhi_nisa_done','true');
+  localStorage.setItem('lokhi_nisa_pct', String(Math.round((GJ_NISA_LUMP_DEFAULT/GJ_NISA_LIMIT)*100)));
+  localStorage.setItem('lokhi_taxable_pct','20');
+  localStorage.setItem('lokhi_journey_strategy', `NISA: ${gjNisaStrat().name} · Long-term: ${strat.name}`);
+  localStorage.setItem('lokhi_journey_complete','true');
+  localStorage.removeItem('lokhi_journey_step');
+  localStorage.removeItem('lokhi_journey_state');
+  localStorage.removeItem('lokhi_journey_skipped');
+  document.getElementById('gjOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  renderHome(); renderJourney(); renderJourneyPrompt();
+  goTo('home');
+  showToast('Your financial plan is ready 🎉');
+}
+
+function gjPersist(){
+  localStorage.setItem('lokhi_journey_step', String(gjIdx));
+  localStorage.setItem('lokhi_journey_state', JSON.stringify(gjState));
+}
+function renderGJTracker(currentStage){
+  document.getElementById('gjTracker').innerHTML = GJ_STAGES.map((s,i)=>{
+    const cls = i < currentStage ? 'done' : i === currentStage ? 'current' : '';
+    const dot = i < currentStage ? '🟢' : i === currentStage ? '🟡' : '⚪';
+    return `<span class="tracker-pill ${cls}">${dot} ${s}</span>`;
+  }).join('');
+}
+function renderGJSlide(){
+  const slide = GJ_SLIDES[gjIdx];
+  document.getElementById('gjStepCounter').textContent = `Step ${gjIdx+1} of ${GJ_SLIDES.length}`;
+  document.getElementById('gjStepLabel').textContent = `STAGE ${slide.stage+1} · ${GJ_STAGES[slide.stage].toUpperCase()}`;
+  document.getElementById('gjSlideTitle').textContent = slide.title;
+  document.getElementById('gjFairyQuote').textContent = GJ_FAIRY_QUOTES[slide.id] || "I'm right here with you through this.";
+  document.getElementById('gjSlideBody').innerHTML = slide.render();
+  renderGJTracker(slide.stage);
+  document.getElementById('gjPrevBtn').disabled = gjIdx===0;
+  document.getElementById('gjPrevBtn').style.opacity = gjIdx===0 ? .4 : 1;
+  document.getElementById('gjNextBtn').style.display = gjIdx===GJ_SLIDES.length-1 ? 'none' : '';
+  if(slide.bind) slide.bind();
+  if(slide.onEnter) slide.onEnter();
+  gjPersist();
+  document.querySelector('.gj-scroll').scrollTo({top:0});
+}
+document.getElementById('gjNextBtn').addEventListener('click', ()=>{ if(gjIdx < GJ_SLIDES.length-1){ gjIdx++; renderGJSlide(); } });
+document.getElementById('gjPrevBtn').addEventListener('click', ()=>{ if(gjIdx>0){ gjIdx--; renderGJSlide(); } });
+document.getElementById('gjSkip').addEventListener('click', ()=>{
+  gjPersist();
+  localStorage.setItem('lokhi_journey_skipped','true');
+  document.getElementById('gjOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  renderJourneyPrompt();
+  goTo('home');
+});
+document.addEventListener('keydown', (e)=>{
+  if(!document.getElementById('gjOverlay').classList.contains('open')) return;
+  if(e.key==='ArrowRight') document.getElementById('gjNextBtn').click();
+  if(e.key==='ArrowLeft') document.getElementById('gjPrevBtn').click();
+});
+
+function openGJOverlay(){
+  const savedStep = parseInt(localStorage.getItem('lokhi_journey_step')||'0',10);
+  gjIdx = isNaN(savedStep) ? 0 : Math.min(savedStep, GJ_SLIDES.length-1);
+  const savedState = localStorage.getItem('lokhi_journey_state');
+  if(savedState){ try{ Object.assign(gjState, JSON.parse(savedState)); }catch(e){} }
+  document.getElementById('gjOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderGJSlide();
+}
+
+function renderJourneyPrompt(){
+  const slot = document.getElementById('journeyPromptSlot');
+  if(!slot) return;
+  const complete = localStorage.getItem('lokhi_journey_complete') === 'true';
+  if(complete){ slot.innerHTML = ''; return; }
+  const savedStep = parseInt(localStorage.getItem('lokhi_journey_step')||'0',10);
+  const pct = Math.round((savedStep/GJ_SLIDES.length)*100);
+  slot.innerHTML = `<div class="card card--gradient" style="margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:220px;">
+      <span class="eyebrow" style="color:#A9B2C4;">Your financial plan</span>
+      <div style="font-weight:700;font-size:16px;margin-top:4px;">${savedStep>0? 'Continue building your plan' : "Let's build your financial plan"}</div>
+      <div class="xp-track" style="margin-top:10px;max-width:260px;"><div class="xp-fill" style="width:${pct}%;"></div></div>
+      <div style="font-size:11px;color:#A9B2C4;margin-top:4px;">Step ${savedStep+1} of ${GJ_SLIDES.length}</div>
+    </div>
+    <button class="btn" style="background:#fff;color:var(--ink-indigo);" id="continueJourneyBtn">${savedStep>0?'Continue':'Start'}</button>
+  </div>`;
+  document.getElementById('continueJourneyBtn').addEventListener('click', openGJOverlay);
+}
+document.getElementById('revisitJourneyBtn').addEventListener('click', openGJOverlay);
+
+function maybeLaunchGuidedJourney(){
+  const complete = localStorage.getItem('lokhi_journey_complete') === 'true';
+  const skipped = localStorage.getItem('lokhi_journey_skipped') === 'true';
+  renderJourneyPrompt();
+  if(!complete && !skipped){ openGJOverlay(); }
+}
+
+/* ================= INIT ================= */
+function applyJourneyBonus(){
+  const bonus = parseInt(localStorage.getItem('lokhi_bonus_xp') || '0', 10);
+  if(bonus > 0){
+    localStorage.removeItem('lokhi_bonus_xp');
+    setTimeout(()=>awardXP(bonus, `+${bonus} XP · Guided journey complete!`), 500);
+  }
+}
+renderHome();
+renderQuests();
+renderGoals();
+renderOptimize();
+renderGrow();
+renderProfile();
+applyJourneyBonus();
+maybeLaunchGuidedJourney();
+</script>
+</body>
+</html>
