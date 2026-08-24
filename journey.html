@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lokhi — Guided Journey (Founder Walkthrough)</title>
+<link rel="stylesheet" href="./lokhi-assets/styles.css">
+<link rel="stylesheet" href="./app-styles.css">
+<style>
+  body{padding-bottom:110px;}
+  .jtop{position:sticky;top:0;z-index:40;background:rgba(247,241,232,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border-hairline);padding:14px 24px;}
+  .jtop-row{display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto;gap:16px;flex-wrap:wrap;}
+  .jtop-brand{display:flex;align-items:center;gap:8px;font-family:var(--font-display-latin);font-weight:700;}
+  .jtop-brand img{width:24px;}
+  .jtop-meta{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--text-muted);}
+  .jtop-xp{background:var(--stage-exceeding-tint);color:var(--gold-thread);padding:4px 12px;border-radius:999px;font:700 12px var(--font-data);}
+  .tracker{display:flex;gap:6px;max-width:960px;margin:12px auto 0;flex-wrap:wrap;}
+  .tracker-pill{display:flex;align-items:center;gap:5px;font-size:11px;padding:5px 10px;border-radius:999px;background:var(--surface-sunk);color:var(--text-muted);}
+  .tracker-pill.done{background:var(--stage-ontrack-tint);color:var(--moss-growth);}
+  .tracker-pill.current{background:var(--coral-pulse);color:#fff;}
+
+  .jwrap{max-width:720px;margin:0 auto;padding:36px 24px 40px;}
+  .step-label{font:600 11px/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;}
+  .slide-title{font-size:28px;margin-bottom:18px;}
+  .fairy-quote{display:flex;gap:10px;align-items:flex-start;background:var(--assistant-tint);border-radius:16px;padding:14px 16px;margin-bottom:24px;}
+  .fairy-quote img{width:26px;flex:0 0 auto;margin-top:2px;}
+  .fairy-quote p{margin:0;font-size:13px;line-height:1.55;color:var(--text-body);font-style:italic;}
+
+  .jnav{position:fixed;left:0;right:0;bottom:0;background:var(--surface-card);border-top:1px solid var(--border-hairline);padding:14px 24px;display:flex;justify-content:center;gap:12px;z-index:50;}
+  .jnav-inner{max-width:720px;width:100%;display:flex;justify-content:space-between;align-items:center;}
+
+  .safety-track{position:relative;height:14px;border-radius:999px;background:var(--surface-sunk);overflow:hidden;box-shadow:var(--inset-sunk);margin:14px 0 6px;}
+  .safety-fill{height:100%;background:var(--moss-growth);border-radius:999px;transition:width .3s ease;}
+  .safety-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);}
+
+  .comfort-row{display:flex;gap:8px;margin:14px 0;}
+  .comfort-btn{flex:1;padding:12px;border-radius:14px;border:1px solid var(--border-hairline);background:var(--surface-card);cursor:pointer;text-align:center;font-size:12px;}
+  .comfort-btn.active{background:var(--ink-indigo);color:#fff;border-color:var(--ink-indigo);}
+
+  .strategy-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0;}
+  @media (max-width:600px){.strategy-grid{grid-template-columns:1fr;}}
+  .strategy-card{border:2px solid var(--border-hairline);border-radius:16px;padding:16px;cursor:pointer;background:var(--surface-card);text-align:center;}
+  .strategy-card.selected{border-color:var(--coral-pulse);box-shadow:0 0 0 3px var(--coral-pulse-12);}
+  .strategy-card .e{font-size:26px;}
+  .strategy-card .n{font-weight:700;font-size:13px;margin-top:6px;}
+  .strategy-card .d{font-size:11px;color:var(--text-muted);margin-top:4px;line-height:1.4;}
+
+  .quest-line{position:relative;padding-left:28px;margin:16px 0;}
+  .quest-line::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:repeating-linear-gradient(to bottom, var(--gold-thread) 0 6px, transparent 6px 12px);}
+  .quest-line-item{position:relative;padding:10px 0;display:flex;justify-content:space-between;align-items:center;}
+  .quest-line-item::before{content:"";position:absolute;left:-28px;top:14px;width:14px;height:14px;border-radius:50%;background:var(--moss-growth);}
+
+  .chip-choice{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;border:1px solid var(--border-hairline);background:var(--surface-card);cursor:pointer;margin:0 8px 8px 0;font-size:13px;}
+  .chip-choice.selected{background:var(--ink-indigo);color:#fff;border-color:var(--ink-indigo);}
+
+  .before-after{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0;}
+  @media (max-width:600px){.before-after{grid-template-columns:1fr;}}
+  .ba-col{border-radius:18px;padding:18px;}
+  .ba-before{background:var(--surface-sunk);}
+  .ba-after{background:linear-gradient(135deg,var(--moss-growth),#5C8F6E);color:#fff;}
+  .ba-row{display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);}
+  .ba-after .ba-row{border-bottom-color:rgba(255,255,255,.18);}
+
+  .protect-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border-hairline);}
+  .protect-row:last-child{border-bottom:none;}
+
+  .scenario-table{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:16px 0;text-align:center;}
+  .scenario-cell{background:var(--surface-sunk);border-radius:14px;padding:14px 8px;}
+  .scenario-cell .yrs{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;}
+  .scenario-cell .rng{font:700 14px var(--font-data);margin-top:6px;}
+
+  .alloc-bar{display:flex;height:32px;border-radius:10px;overflow:hidden;margin:16px 0 8px;}
+  .alloc-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;}
+  .alloc-legend span{display:flex;align-items:center;gap:5px;}
+  .alloc-legend .dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
+</style>
+</head>
+<body>
+
+<div class="jtop">
+  <div class="jtop-row">
+    <div class="jtop-brand"><img src="./lokhi-assets/assets/owl/owl-young-young.png">Lokhi — Guided Journey</div>
+    <div class="jtop-meta">
+      <span id="stepCounter">Step 1 of 20</span>
+      <span class="jtop-xp">🎮 Demo XP: <span id="xpCount">0</span></span>
+      <a href="./index.html" style="color:var(--text-muted);">Exit to app →</a>
+    </div>
+  </div>
+  <div class="tracker" id="tracker"></div>
+</div>
+
+<div class="jwrap">
+  <div class="step-label" id="stepLabel">STAGE 1 · UNDERSTAND</div>
+  <h1 class="slide-title" id="slideTitle">Let's understand your financial world</h1>
+  <div class="fairy-quote"><img src="./lokhi-assets/assets/fairy/fairy-wisteria.png"><p id="fairyQuote">Hello — I'm your Fairy Godmother. I'll walk with you through this.</p></div>
+  <div id="slideBody"></div>
+</div>
+
+<div class="jnav">
+  <div class="jnav-inner">
+    <button class="btn btn-ghost" id="prevBtn">← Back</button>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-secondary btn-sm" id="restartBtn">Restart</button>
+    </div>
+    <button class="btn btn-primary" id="nextBtn">Next →</button>
+  </div>
+</div>
+
+<script>
+/* ===================== PERSONA MODEL (cash-rich, underinvested) ===================== */
+const INCOME = 900000, ESSENTIAL = 300000, LIFESTYLE = 170000;
+const EXPENSES = ESSENTIAL + LIFESTYLE;
+const SURPLUS = INCOME - EXPENSES;               // 430,000 /mo
+const ANNUAL_SURPLUS = SURPLUS * 12;             // 5,160,000
+const CASH = 8000000;
+const NISA_LIMIT = 3600000, NISA_CURRENT = 0;
+const NISA_LUMP_DEFAULT = 2000000;
+
+const COMFORT_LEVELS = [ {id:'lean', label:'Lean', mult:3}, {id:'standard', label:'Standard', mult:6}, {id:'safe', label:'Extra-safe', mult:9} ];
+
+const NISA_STRATEGIES = [
+  { id:'steady', name:'Steady Grower', icon:'🌱', desc:'Long-term diversified investing. Lower movement, lower ceiling.' },
+  { id:'balanced', name:'Balanced Builder', icon:'⚖️', desc:'Balances growth and stability. A reasonable middle path.' },
+  { id:'growth', name:'Growth Seeker', icon:'🚀', desc:'Higher potential growth, higher potential volatility.' },
+];
+const TAXABLE_STRATEGIES = [
+  { id:'builder', name:'Long-Term Builder', icon:'🌱', desc:'Diversified long-term growth.', low:3, high:6, alloc:{global:55,japan:15,bonds:25,other:5} },
+  { id:'balanced', name:'Balanced', icon:'⚖️', desc:'Balance growth and stability.', low:4, high:7, alloc:{global:60,japan:15,bonds:15,other:10} },
+  { id:'growth', name:'Growth', icon:'🚀', desc:'Higher exposure to growth assets.', low:5, high:9, alloc:{global:65,japan:15,bonds:5,other:15} },
+];
+const CASH_PURPOSES = [
+  {id:'home', label:'🏠 Home', horizon:'near'}, {id:'car', label:'🚗 Car', horizon:'near'},
+  {id:'travel', label:'✈️ Travel', horizon:'near'}, {id:'family', label:'👶 Family', horizon:'near'},
+  {id:'education', label:'🎓 Education', horizon:'near'}, {id:'business', label:'💼 Business', horizon:'near'},
+  {id:'longterm', label:'📈 Long-term wealth', horizon:'long'}, {id:'security', label:'🛟 Extra security', horizon:'liquid'},
+  {id:'unsure', label:"🤷 I don't know yet", horizon:'liquid'},
+];
+const PROTECTION_ITEMS = [
+  { item:'Employer health insurance', status:'covered', note:'Provided through your job' },
+  { item:'National pension (nenkin)', status:'covered', note:'Standard government coverage' },
+  { item:'Life insurance', status:'gap', note:'No policy found in your connected accounts' },
+  { item:'Income / disability protection', status:'gap', note:'Not currently covered' },
+];
+
+const STAGES = ['Understand','Protect','Plan','NISA Ninja','Build','Grow','Optimize','Financial Freedom'];
+
+/* mutable state as the user clicks through */
+const state = {
+  comfort: 'standard',
+  nisaStrategy: null,
+  nisaMonthly: 100000,
+  cashPurpose: null,
+  taxableStrategy: null,
+};
+let xp = 0;
+function money(n){ return '¥' + Math.round(n).toLocaleString('en-US'); }
+function addXP(n){ xp += n; document.getElementById('xpCount').textContent = xp.toLocaleString(); }
+
+function efTarget(){ const c = COMFORT_LEVELS.find(c=>c.id===state.comfort); return ESSENTIAL * c.mult; }
+function cashAfterEF(){ return CASH - efTarget(); }
+function nisaGap(){ return NISA_LIMIT - NISA_CURRENT - NISA_LUMP_DEFAULT; }
+function nisaMonthsToTarget(){ return Math.ceil(nisaGap() / state.nisaMonthly); }
+function cashRemaining(){ return cashAfterEF() - NISA_LUMP_DEFAULT; }
+function horizonSplit(){
+  const purpose = CASH_PURPOSES.find(p=>p.id===state.cashPurpose) || {horizon:'liquid'};
+  let longPct = 0.4;
+  if(purpose.horizon==='near') longPct = 0.4;
+  if(purpose.horizon==='long') longPct = 0.95;
+  if(purpose.horizon==='liquid') longPct = 0.15;
+  const longTerm = cashRemaining() * longPct;
+  const nearTerm = cashRemaining() - longTerm;
+  return { longTerm, nearTerm, longPct };
+}
+function projectInvestment(lump, monthly, years, returnPct){
+  const n = years*12, r = returnPct/100/12;
+  let fv = lump * Math.pow(1+r, n);
+  fv += r>0 ? monthly*((Math.pow(1+r,n)-1)/r) : monthly*n;
+  return fv;
+}
+
+/* ===================== SLIDES ===================== */
+const SLIDES = [
+{ id:'intro', stage:0, title:"Let's understand your financial world", render: () => `
+  <p style="font-size:15px;line-height:1.7;color:var(--text-body);">This is a first-time user with a stable job, steady salary, a lot of cash sitting in one account, an underused NISA allowance, and no real investment strategy yet.</p>
+  <p style="font-size:15px;line-height:1.7;color:var(--text-body);">Their problem isn't that they don't have money. It's that they don't know how to structure, protect, and grow the money they already have.</p>
+  <div class="card card--sunk" style="margin-top:20px;">
+    <span class="eyebrow" style="display:block;margin-bottom:10px;">In a real product, this step would let the user:</span>
+    <div class="chip-row" style="display:flex;flex-wrap:wrap;gap:8px;">
+      <span class="badge badge-neutral">🏦 Connect bank accounts</span>
+      <span class="badge badge-neutral">📄 Upload statements</span>
+      <span class="badge badge-neutral">📈 Connect investments</span>
+      <span class="badge badge-neutral">🛡️ Add insurance</span>
+      <span class="badge badge-neutral">🎯 Enter goals</span>
+    </div>
+  </div>
+  <p style="margin-top:18px;font-size:13px;color:var(--text-muted);">"You only need to do this once. We'll use it to personalize everything that comes next." For this walkthrough, we already have their data.</p>
+`},
+
+{ id:'map', stage:0, title:"Here's where your money is today", render: () => `
+  <div class="world-grid">
+    <div class="world-cell"><div class="lbl">Money In</div><div class="val">${money(INCOME)}/mo</div></div>
+    <div class="world-cell"><div class="lbl">Money Out</div><div class="val">${money(EXPENSES)}/mo</div></div>
+    <div class="world-cell"><div class="lbl">Cash</div><div class="val">${money(CASH)}</div></div>
+    <div class="world-cell"><div class="lbl">Investments</div><div class="val">¥0</div></div>
+    <div class="world-cell"><div class="lbl">Protection</div><div class="val" style="font-size:14px;">No fund yet</div></div>
+    <div class="world-cell"><div class="lbl">NISA used</div><div class="val">0%</div></div>
+  </div>
+  <p style="margin-top:18px;font-size:13px;color:var(--text-muted);line-height:1.6;">Goals on file: buying a home, general long-term security, and "figuring out investing" — nothing structured yet.</p>
+`},
+
+{ id:'insight', stage:0, title:"You have more cash sitting idle than you likely need", render: () => `
+  <div class="card" style="border:1px solid var(--coral-pulse-12);background:var(--coral-pulse-12);">
+    <div style="font:800 30px var(--font-display-latin);color:var(--coral-pulse-press);">${money(CASH)}</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-top:2px;">sitting in cash right now</p>
+    <p style="font-size:14px;line-height:1.6;margin-top:14px;">Based on essential expenses (${money(ESSENTIAL)}/mo) and near-term needs, this user likely only needs about <strong>${money(ESSENTIAL*6)}</strong> readily available.</p>
+    <div class="card--gradient" style="border-radius:16px;padding:16px;margin-top:14px;">
+      <span class="eyebrow" style="color:#A9B2C4;">That means</span>
+      <div style="font:800 26px var(--font-display-latin);margin-top:4px;">${money(CASH - ESSENTIAL*6)}</div>
+      <p style="font-size:13px;color:#A9B2C4;margin-top:2px;">could be given a job.</p>
+    </div>
+  </div>
+  <p style="margin-top:16px;font-size:13px;color:var(--text-muted);">This isn't a warning. It's the moment the app becomes personal — "Let's figure out where your money should go."</p>
+`},
+
+{ id:'protect_lesson', stage:1, title:'Before we grow it, let\u2019s protect it', render: () => `
+  <p style="font-size:14px;line-height:1.7;">🛟 <strong>Emergency Fund</strong> — money kept aside for the unexpected:</p>
+  <div class="grid-2" style="margin:14px 0;">
+    <div class="badge badge-neutral" style="height:auto;padding:10px 12px;display:block;">Job loss</div>
+    <div class="badge badge-neutral" style="height:auto;padding:10px 12px;display:block;">Medical expenses</div>
+    <div class="badge badge-neutral" style="height:auto;padding:10px 12px;display:block;">Emergency travel</div>
+    <div class="badge badge-neutral" style="height:auto;padding:10px 12px;display:block;">Major repairs</div>
+  </div>
+  <p style="font-size:13px;color:var(--text-muted);line-height:1.6;">This money isn't meant to maximize returns. Its job is to keep you safe — easily accessible, low risk, separate from everyday spending.</p>
+`},
+
+{ id:'protect_action', stage:1, title:'How much would you need?', render: () => `
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">Essential monthly expenses: <strong>${money(ESSENTIAL)}</strong></p>
+  <div class="comfort-row" id="comfortRow">
+    ${COMFORT_LEVELS.map(c=>`<button class="comfort-btn ${state.comfort===c.id?'active':''}" data-comfort="${c.id}">${c.label}<br><span style="opacity:.7;">${c.mult}× expenses</span></button>`).join('')}
+  </div>
+  <div class="safety-track"><div class="safety-fill" id="safetyFill" style="width:100%;"></div></div>
+  <div class="safety-labels"><span>¥0</span><span id="efTargetLabel">${money(efTarget())}</span></div>
+  <p style="margin-top:18px;font-size:14px;">Recommended reserve: <strong id="efTargetBig">${money(efTarget())}</strong></p>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:6px;">Kept in an easily-accessible, low-risk account — separate from spending money, and not dependent on the market.</p>
+`, bind: () => {
+  document.querySelectorAll('[data-comfort]').forEach(b=>b.addEventListener('click', ()=>{
+    state.comfort = b.getAttribute('data-comfort'); renderSlide();
+  }));
+}},
+
+{ id:'protect_complete', stage:1, title:'QUEST COMPLETE — your safety net is ready', render: () => `
+  <div class="card" style="text-align:center;background:var(--stage-ontrack-tint);border:none;">
+    <div style="font-size:40px;">🛟</div>
+    <div style="font:800 24px var(--font-display-latin);color:var(--moss-growth);margin-top:8px;">${money(efTarget())} secured</div>
+    <p style="font-size:13px;color:var(--text-body);margin-top:6px;">Designated from cash, separate from everyday spending.</p>
+    <div style="margin-top:14px;"><span class="badge badge-gold">+250 XP</span></div>
+  </div>
+  <p style="margin-top:16px;font-size:13px;color:var(--text-muted);">🔓 Investment planning unlocked. Remaining cash: <strong>${money(cashAfterEF())}</strong></p>
+`, onEnter: () => addXP(250) },
+
+{ id:'cashflow', stage:2, title:'Understanding your cash flow', render: () => `
+  <div class="card">
+    <div class="ba-row"><span>Monthly income</span><span class="money">${money(INCOME)}</span></div>
+    <div class="ba-row"><span>− Essential expenses</span><span class="money">${money(ESSENTIAL)}</span></div>
+    <div class="ba-row"><span>− Lifestyle expenses</span><span class="money">${money(LIFESTYLE)}</span></div>
+    <div class="ba-row" style="border:none;font-weight:800;padding-top:14px;"><span>= Monthly investable surplus</span><span class="money" style="color:var(--moss-growth);">${money(SURPLUS)}</span></div>
+  </div>
+  <p style="font-size:14px;line-height:1.7;margin-top:16px;">Annualized, that's <strong>${money(ANNUAL_SURPLUS)}/year</strong> — think of this as <strong>Financial Fuel</strong>: the resource this user can deploy across the rest of the journey.</p>
+`},
+
+{ id:'moneymap', stage:2, title:'Give every yen a job', render: () => {
+  const buckets = [
+    { icon:'🛟', label:'Protect', pct:0, note:'Already funded — no new surplus needed' },
+    { icon:'🎯', label:'Near-term', pct:19, amount: Math.round(SURPLUS*0.19) },
+    { icon:'🌱', label:'Grow (NISA)', pct:23, amount: Math.round(SURPLUS*0.23) },
+    { icon:'📈', label:'Build (taxable)', pct:35, amount: Math.round(SURPLUS*0.35) },
+    { icon:'✨', label:'Live', pct:23, amount: Math.round(SURPLUS*0.23) },
+  ];
+  return `
+  <div class="alloc-bar">${buckets.map((b,i)=>`<div style="width:${b.pct||1}%;background:${['transparent','var(--denim-ledger)','var(--moss-growth)','var(--ink-indigo)','var(--gold-thread)'][i]};"></div>`).join('')}</div>
+  <div class="grid-2" style="margin-top:12px;">
+    ${buckets.map(b=>`<div class="world-cell"><div class="lbl">${b.icon} ${b.label}</div><div class="val" style="font-size:15px;">${b.amount?money(b.amount)+'/mo':'—'}</div></div>`).join('')}
+  </div>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:14px;line-height:1.6;">This split is personalized — not a universal percentage. It reflects this user's stable income, unused NISA room, and a home goal that isn't urgent yet.</p>`;
+}},
+
+{ id:'nisa_lesson', stage:3, title:'Your next opportunity: make your NISA work harder', render: () => `
+  <div class="card--soft" style="border-radius:16px;padding:16px;margin-bottom:14px;">
+    <span class="eyebrow" style="display:block;margin-bottom:6px;">What is NISA?</span>
+    <p style="font-size:13px;line-height:1.6;margin:0;">A Japanese account type that lets eligible investments grow and be sold without the usual ~20% tax on gains, up to an annual limit.</p>
+  </div>
+  <div class="card--soft" style="border-radius:16px;padding:16px;">
+    <span class="eyebrow" style="display:block;margin-bottom:6px;">Why does it matter here?</span>
+    <p style="font-size:13px;line-height:1.6;margin:0;">This user is holding ${money(CASH)} in cash with 0% of this year's ¥3.6M NISA allowance used. That's tax-advantaged room expiring unused.</p>
+  </div>
+`},
+
+{ id:'nisa_quests', stage:3, title:'The NISA quest line', render: () => `
+  <div class="quest-line">
+    <div class="quest-line-item"><span>Understand NISA</span><span class="badge badge-gold">+50 XP</span></div>
+    <div class="quest-line-item"><span>Choose your investment strategy</span><span class="badge badge-gold">+100 XP</span></div>
+    <div class="quest-line-item"><span>Choose your allocation</span><span class="badge badge-gold">+150 XP</span></div>
+    <div class="quest-line-item"><span>Make your first investment</span><span class="badge badge-gold">+200 XP</span></div>
+    <div class="quest-line-item"><span>Build your monthly contribution</span><span class="badge badge-gold">+250 XP</span></div>
+  </div>
+  <p style="font-size:12px;color:var(--text-muted);">No 20-page explainer — five short, ordered quests, each earning progress.</p>
+`, onEnter: () => addXP(50) },
+
+{ id:'nisa_strategy', stage:3, title:'Choose your NISA strategy', render: () => `
+  <div class="strategy-grid">
+    ${NISA_STRATEGIES.map(s=>`<div class="strategy-card ${state.nisaStrategy===s.id?'selected':''}" data-nisa-strat="${s.id}">
+      <div class="e">${s.icon}</div><div class="n">${s.name}</div><div class="d">${s.desc}</div>
+    </div>`).join('')}
+  </div>
+  <p style="font-size:12px;color:var(--text-muted);">No option is universally "best" — this depends on comfort with volatility and time horizon.</p>
+`, bind: () => {
+  document.querySelectorAll('[data-nisa-strat]').forEach(el=>el.addEventListener('click', ()=>{
+    state.nisaStrategy = el.getAttribute('data-nisa-strat');
+    if(!state.__nisaStratXP){ addXP(100); state.__nisaStratXP = true; }
+    renderSlide();
+  }));
+}},
+
+{ id:'nisa_progress', stage:3, title:'Your NISA journey', render: () => `
+  <div class="grid-2" style="margin-bottom:16px;">
+    <div class="world-cell"><div class="lbl">Immediate allocation</div><div class="val">${money(NISA_LUMP_DEFAULT)}</div></div>
+    <div class="world-cell"><div class="lbl">Remaining to target</div><div class="val">${money(nisaGap())}</div></div>
+  </div>
+  <div class="slider-row">
+    <div class="srow-head"><span>Monthly contribution</span><span class="srow-val" id="nisaMonthlyVal">${money(state.nisaMonthly)}</span></div>
+    <input type="range" id="nisaMonthlySlider" min="50000" max="200000" step="10000" value="${state.nisaMonthly}">
+  </div>
+  <p style="font-size:14px;margin-top:10px;">At this pace, the remaining ${money(nisaGap())} is filled in <strong id="nisaMonthsLabel">${nisaMonthsToTarget()} months</strong>.</p>
+`, bind: () => {
+  document.getElementById('nisaMonthlySlider').addEventListener('input', (e)=>{
+    state.nisaMonthly = parseFloat(e.target.value);
+    document.getElementById('nisaMonthlyVal').textContent = money(state.nisaMonthly);
+    document.getElementById('nisaMonthsLabel').textContent = nisaMonthsToTarget() + ' months';
+    if(!state.__nisaAllocXP){ addXP(150); state.__nisaAllocXP = true; }
+  });
+}},
+
+{ id:'nisa_complete', stage:3, title:'🌱 NISA NINJA — your strategy is deployed', render: () => `
+  <div class="card" style="text-align:center;background:var(--stage-exceeding-tint);border:none;">
+    <div style="font-size:40px;">🌱</div>
+    <div style="font:800 22px var(--font-display-latin);color:var(--gold-thread);margin-top:6px;">Amount invested: ${money(NISA_LUMP_DEFAULT)}</div>
+    <p style="font-size:13px;margin-top:6px;">Strategy: <strong>${(NISA_STRATEGIES.find(s=>s.id===state.nisaStrategy)||NISA_STRATEGIES[1]).name}</strong> · Monthly: ${money(state.nisaMonthly)} · Target reached in ~${nisaMonthsToTarget()} months</p>
+    <div style="margin-top:12px;"><span class="badge badge-gold">+500 XP</span></div>
+  </div>
+  <p style="margin-top:16px;font-size:13px;color:var(--text-muted);">📈 Unlocked: "What should your remaining cash do?"</p>
+`, onEnter: () => { addXP(200); addXP(500); } },
+
+{ id:'remaining_cash', stage:4, title:'You still have cash. What is it for?', render: () => `
+  <p style="font-size:14px;">After the emergency fund and NISA, this money still has work to do:</p>
+  <div class="card" style="text-align:center;margin:14px 0;">
+    <div style="font:800 32px var(--font-display-latin);color:var(--text-heading);">${money(cashRemaining())}</div>
+  </div>
+  <div style="margin-top:10px;">${CASH_PURPOSES.map(p=>`<span class="chip-choice ${state.cashPurpose===p.id?'selected':''}" data-purpose="${p.id}">${p.label}</span>`).join('')}</div>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:14px;">The user should never be forced to invest money they may need soon.</p>
+`, bind: () => {
+  document.querySelectorAll('[data-purpose]').forEach(el=>el.addEventListener('click', ()=>{
+    state.cashPurpose = el.getAttribute('data-purpose'); renderSlide();
+  }));
+}},
+
+{ id:'cash_destination', stage:4, title:'Not all money should be invested the same way', render: () => {
+  const split = horizonSplit();
+  const purpose = CASH_PURPOSES.find(p=>p.id===state.cashPurpose);
+  return `
+  <div class="grid-2">
+    <div class="world-cell"><div class="lbl">Needed soon-ish${purpose?' · '+purpose.label:''}</div><div class="val">${money(split.nearTerm)}</div></div>
+    <div class="world-cell"><div class="lbl">Not needed long-term</div><div class="val">${money(split.longTerm)}</div></div>
+  </div>
+  <p style="font-size:13px;line-height:1.6;margin-top:16px;">Time horizon determines strategy: money needed soon stays liquid and low-risk. Money with 10+ years ahead of it can take on long-term, growth-oriented investing.</p>
+  ${split.longTerm < 500000 ? `<p style="font-size:12px;color:var(--text-muted);margin-top:10px;">For this walkthrough we'll still preview what long-term investing could look like, illustratively.</p>` : ''}
+`;}},
+
+{ id:'taxable_lesson', stage:4, title:'Your next level: build beyond NISA', render: () => `
+  <p style="font-size:14px;line-height:1.7;">Why invest outside NISA? Because this user's long-term investable assets exceed their tax-advantaged capacity.</p>
+  <div class="grid-2" style="margin-top:14px;">
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Diversification</span>
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Asset allocation</span>
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Rebalancing</span>
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Fees &amp; tax drag</span>
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Volatility</span>
+    <span class="badge badge-neutral" style="height:auto;padding:10px;display:block;">Long-term compounding</span>
+  </div>
+`},
+
+{ id:'taxable_strategy', stage:5, title:'Choose your long-term strategy', render: () => {
+  const split = horizonSplit();
+  const strat = TAXABLE_STRATEGIES.find(s=>s.id===state.taxableStrategy);
+  const monthlyBuild = Math.round(SURPLUS*0.35);
+  const rows = strat ? [5,10,20].map(y=>{
+    const lo = projectInvestment(split.longTerm, monthlyBuild, y, strat.low);
+    const hi = projectInvestment(split.longTerm, monthlyBuild, y, strat.high);
+    return `<div class="scenario-cell"><div class="yrs">${y} years</div><div class="rng">${money(lo)}–${money(hi)}</div></div>`;
+  }).join('') : '';
+  return `
+  <div class="strategy-grid">
+    ${TAXABLE_STRATEGIES.map(s=>`<div class="strategy-card ${state.taxableStrategy===s.id?'selected':''}" data-tax-strat="${s.id}">
+      <div class="e">${s.icon}</div><div class="n">${s.name}</div><div class="d">${s.desc}</div>
+    </div>`).join('')}
+  </div>
+  <p style="font-size:13px;margin-top:10px;">Investing ${money(split.longTerm)} lump sum + ~${money(monthlyBuild)}/mo:</p>
+  <div class="scenario-table">${rows || '<p style="grid-column:1/-1;font-size:12px;color:var(--text-muted);">Pick a strategy above to see scenario ranges.</p>'}</div>
+  <p style="font-size:11px;color:var(--text-muted);">Clearly labeled scenarios, not promises — real returns vary year to year.</p>
+`;}, bind: () => {
+  document.querySelectorAll('[data-tax-strat]').forEach(el=>el.addEventListener('click', ()=>{
+    state.taxableStrategy = el.getAttribute('data-tax-strat');
+    if(!state.__taxStratXP){ addXP(150); state.__taxStratXP = true; }
+    renderSlide();
+  }));
+}},
+
+{ id:'portfolio', stage:5, title:'Your first portfolio', render: () => {
+  const strat = TAXABLE_STRATEGIES.find(s=>s.id===state.taxableStrategy) || TAXABLE_STRATEGIES[1];
+  const a = strat.alloc;
+  const colors = {global:'var(--ink-indigo)', japan:'var(--coral-pulse)', bonds:'var(--moss-growth)', other:'var(--gold-thread)'};
+  const labels = {global:'Global equities', japan:'Japan equities', bonds:'Bonds / defensive', other:'Other / alternatives'};
+  return `
+  <span class="eyebrow" style="display:block;margin-bottom:6px;">Your ${strat.name} Portfolio</span>
+  <div class="alloc-bar">${Object.keys(a).map(k=>`<div style="width:${a[k]}%;background:${colors[k]};"></div>`).join('')}</div>
+  <div class="alloc-legend">${Object.keys(a).map(k=>`<span><span class="dot" style="background:${colors[k]};"></span>${labels[k]} — ${a[k]}%</span>`).join('')}</div>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:16px;line-height:1.6;">Personalized based on risk tolerance, time horizon, existing NISA holdings, and income stability. Nothing here is mandatory — the user can adjust in the Playground at any time.</p>
+`;}, onEnter: () => { if(!state.__portfolioXP){ addXP(200); state.__portfolioXP = true; } } },
+
+{ id:'protection', stage:6, title:'One more thing — are you protected?', render: () => `
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">This checks what's already covered before suggesting anything new. It's an intelligence feature, not a sales funnel.</p>
+  <div class="card">
+    ${PROTECTION_ITEMS.map(i=>`<div class="protect-row">
+      <span style="font-size:13px;">${i.item}<br><span style="font-size:11px;color:var(--text-muted);">${i.note}</span></span>
+      <span class="badge ${i.status==='covered'?'badge-moss':'badge-coral'}">${i.status==='covered'?'Covered':'Gap'}</span>
+    </div>`).join('')}
+  </div>
+`},
+
+{ id:'final', stage:7, title:'Your money has a plan', render: () => {
+  const split = horizonSplit();
+  const strat = TAXABLE_STRATEGIES.find(s=>s.id===state.taxableStrategy) || TAXABLE_STRATEGIES[1];
+  const nisaStrat = NISA_STRATEGIES.find(s=>s.id===state.nisaStrategy) || NISA_STRATEGIES[1];
+  return `
+  <div class="before-after">
+    <div class="ba-col ba-before">
+      <span class="eyebrow" style="display:block;margin-bottom:10px;">Your old world</span>
+      <div class="ba-row"><span>Cash</span><span>${money(CASH)}</span></div>
+      <div class="ba-row"><span>Invested</span><span>¥0</span></div>
+      <div class="ba-row"><span>NISA</span><span>Unused</span></div>
+      <div class="ba-row" style="border:none;"><span>Strategy</span><span>None</span></div>
+    </div>
+    <div class="ba-col ba-after">
+      <span class="eyebrow" style="display:block;margin-bottom:10px;color:#DDEFE2;">Your new world</span>
+      <div class="ba-row">🛟 Emergency Fund<span>${money(efTarget())}</span></div>
+      <div class="ba-row">🌱 NISA<span>${money(NISA_LUMP_DEFAULT)}+</span></div>
+      <div class="ba-row">📈 Long-term Investments<span>${money(split.longTerm)}</span></div>
+      <div class="ba-row" style="border:none;">🏠 Near-term Goals<span>${money(split.nearTerm)}</span></div>
+    </div>
+  </div>
+  <div class="card" style="text-align:center;">
+    <span class="eyebrow" style="display:block;">Your Financial Strategy</span>
+    <div style="font:800 22px var(--font-display-latin);margin-top:4px;">NISA: ${nisaStrat.name} · Long-term: ${strat.name}</div>
+  </div>
+  <div class="section-block" style="margin-top:20px;">
+    <h3 style="margin-bottom:10px;">Your next milestones</h3>
+    <ol style="font-size:13px;line-height:2;color:var(--text-body);padding-left:20px;">
+      <li>Maintain emergency fund</li><li>Continue monthly NISA contributions</li><li>Build taxable portfolio</li>
+      <li>Review insurance</li><li>Rebalance periodically</li><li>Revisit goals when life changes</li>
+    </ol>
+  </div>
+  <button class="btn btn-primary btn-block" style="margin-top:10px;height:56px;font-size:16px;" id="enterPlaygroundBtn">Enter the Playground →</button>
+  <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:10px;">This entire journey now updates your Home tab and Playground.</p>
+`;}, bind: () => {
+  document.getElementById('enterPlaygroundBtn').addEventListener('click', ()=>{
+    localStorage.setItem('lokhi_ef_done','true');
+    localStorage.setItem('lokhi_ef_amount', String(efTarget()));
+    localStorage.setItem('lokhi_nisa_done','true');
+    localStorage.setItem('lokhi_nisa_pct', String(Math.round(((NISA_LUMP_DEFAULT)/NISA_LIMIT)*100)));
+    localStorage.setItem('lokhi_taxable_pct', '20');
+    localStorage.setItem('lokhi_journey_strategy', `NISA: ${nisaStrat().name} · Long-term: ${(TAXABLE_STRATEGIES.find(s=>s.id===state.taxableStrategy)||TAXABLE_STRATEGIES[1]).name}`);
+    localStorage.setItem('lokhi_bonus_xp', String(xp));
+    window.location.href = './index.html';
+  });
+}},
+];
+function nisaStrat(){ return NISA_STRATEGIES.find(s=>s.id===state.nisaStrategy) || NISA_STRATEGIES[1]; }
+
+/* ===================== CONTROLLER ===================== */
+let idx = 0;
+function renderTracker(currentStage){
+  document.getElementById('tracker').innerHTML = STAGES.map((s,i)=>{
+    const cls = i < currentStage ? 'done' : i === currentStage ? 'current' : '';
+    const dot = i < currentStage ? '🟢' : i === currentStage ? '🟡' : '⚪';
+    return `<span class="tracker-pill ${cls}">${dot} ${s}</span>`;
+  }).join('');
+}
+function renderSlide(){
+  const slide = SLIDES[idx];
+  document.getElementById('stepCounter').textContent = `Step ${idx+1} of ${SLIDES.length}`;
+  document.getElementById('stepLabel').textContent = `STAGE ${slide.stage+1} · ${STAGES[slide.stage].toUpperCase()}`;
+  document.getElementById('slideTitle').textContent = slide.title;
+  document.getElementById('slideBody').innerHTML = slide.render();
+  renderTracker(slide.stage);
+  document.getElementById('prevBtn').disabled = idx===0;
+  document.getElementById('prevBtn').style.opacity = idx===0 ? .4 : 1;
+  document.getElementById('nextBtn').textContent = idx===SLIDES.length-1 ? 'Restart demo' : 'Next →';
+  if(slide.bind) slide.bind();
+  if(slide.onEnter && !slide.__entered){ slide.onEnter(); slide.__entered = true; }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  if(idx < SLIDES.length-1){ idx++; renderSlide(); } else { idx = 0; SLIDES.forEach(s=>s.__entered=false); xp=0; document.getElementById('xpCount').textContent='0'; renderSlide(); }
+});
+document.getElementById('prevBtn').addEventListener('click', ()=>{ if(idx>0){ idx--; renderSlide(); } });
+document.getElementById('restartBtn').addEventListener('click', ()=>{ idx=0; SLIDES.forEach(s=>s.__entered=false); xp=0; document.getElementById('xpCount').textContent='0'; renderSlide(); });
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='ArrowRight') document.getElementById('nextBtn').click();
+  if(e.key==='ArrowLeft') document.getElementById('prevBtn').click();
+});
+
+renderSlide();
+</script>
+</body>
+</html>

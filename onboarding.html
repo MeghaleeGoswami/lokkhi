@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lokhi — Start Your Financial Journey</title>
+<link rel="stylesheet" href="./lokhi-assets/styles.css">
+<link rel="stylesheet" href="./app-styles.css">
+<style>
+  body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px;}
+  .ob-wrap{max-width:640px;width:100%;text-align:center;}
+  .ob-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:var(--assistant-tint);color:var(--wisteria-wand);font:600 12px var(--font-body);margin-bottom:24px;}
+  .ob-wrap h1{font-size:36px;line-height:1.2;margin-bottom:12px;}
+  .ob-wrap .lead{font-size:16px;color:var(--text-muted);line-height:1.6;max-width:520px;margin:0 auto 32px;}
+  .capture-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left;margin:0 auto 32px;max-width:560px;}
+  @media (max-width:600px){.capture-grid{grid-template-columns:1fr 1fr;}}
+  .capture-item{background:var(--surface-card);border:1px solid var(--border-hairline);border-radius:14px;padding:12px 14px;font-size:12px;color:var(--text-body);display:flex;align-items:center;gap:8px;}
+  .placeholder-note{margin-top:36px;font-size:12px;color:var(--text-muted);background:var(--surface-sunk);border-radius:14px;padding:14px 18px;text-align:left;}
+</style>
+</head>
+<body>
+
+<div class="ob-wrap">
+  <span class="ob-badge">✨ Step 1 of your journey</span>
+  <h1>Let's build your financial character</h1>
+  <p class="lead">This is where Lokhi gets to know your income, accounts, goals, and the life you're building toward — and turns it into a character, not a spreadsheet.</p>
+
+  <div class="card" style="text-align:left;margin-bottom:28px;">
+    <span class="eyebrow" style="display:block;margin-bottom:14px;">First — pick an avatar</span>
+    <div class="avatar-grid" id="avatarGrid"></div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:16px;line-height:1.5;">
+      Your avatar isn't a diagnosis — it's a starting pattern. It evolves as your financial journey does, and you can always design your own.
+    </p>
+  </div>
+
+  <div class="card" style="text-align:left;margin-bottom:28px;">
+    <span class="eyebrow" style="display:block;margin-bottom:14px;">Then, we'll get a picture of</span>
+    <div class="capture-grid">
+      <div class="capture-item">💰 Income &amp; expenses</div>
+      <div class="capture-item">🏦 Accounts &amp; cards</div>
+      <div class="capture-item">📈 Investments &amp; NISA</div>
+      <div class="capture-item">🏠 Life goals &amp; events</div>
+      <div class="capture-item">📄 Statements (optional)</div>
+      <div class="capture-item">🎯 Risk comfort</div>
+    </div>
+    <span class="eyebrow" style="display:block;margin-bottom:10px;">Life events &amp; aspirations</span>
+    <div class="capture-grid" style="grid-template-columns:repeat(4,1fr);">
+      <div class="capture-item">🏠 Buy a home</div>
+      <div class="capture-item">💍 Get married</div>
+      <div class="capture-item">👶 Have children</div>
+      <div class="capture-item">✈️ Travel</div>
+      <div class="capture-item">🚀 Start a business</div>
+      <div class="capture-item">🌅 Retire early</div>
+      <div class="capture-item">💳 Pay off debt</div>
+      <div class="capture-item">🛟 Emergency fund</div>
+    </div>
+  </div>
+
+  <button class="btn btn-primary btn-block" style="height:56px;font-size:16px;" id="startBtn">Start Your Financial Journey →</button>
+
+  <div class="placeholder-note">
+    <strong>Note for reviewers:</strong> this page is a placeholder entry point. The full onboarding flow (data capture, statement upload, goal-setting) is being designed separately. Choosing an avatar here is saved locally and carried into <code>index.html</code>, which then walks the user through a guided, in-app financial setup (Protect → Plan → NISA → Grow → Optimize) before landing on their real dashboard — not a separate demo, just the natural first-run experience.
+  </div>
+</div>
+
+<script src="./app-data.js"></script>
+<script>
+  const grid = document.getElementById('avatarGrid');
+  let selected = window.APP_STORAGE.getAvatar();
+
+  function renderAvatars(){
+    grid.innerHTML = window.APP_DATA.AVATARS.map(a => `
+      <div class="avatar-card ${a.id===selected?'selected':''}" data-avatar="${a.id}" style="--avatar-color:${a.color};">
+        <span class="avatar-emoji">${a.icon}</span>
+        <div class="avatar-name">${a.name}</div>
+      </div>
+    `).join('');
+    grid.querySelectorAll('.avatar-card').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        selected = card.getAttribute('data-avatar');
+        window.APP_STORAGE.saveAvatar(selected);
+        renderAvatars();
+      });
+    });
+  }
+  renderAvatars();
+
+  document.getElementById('startBtn').addEventListener('click', ()=>{
+    window.location.href = './index.html';
+  });
+</script>
+</body>
+</html>

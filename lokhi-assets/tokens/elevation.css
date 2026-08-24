@@ -1,0 +1,11 @@
+:root{
+/* Warm shadows only — tinted with charcoal, never neutral black */
+--shadow-none:none;
+--shadow-1:0 1px 2px rgba(51,48,42,.06);
+--shadow-2:0 2px 8px rgba(51,48,42,.07);
+--shadow-3:0 8px 24px rgba(51,48,42,.09);
+--shadow-sheet:0 -8px 32px rgba(28,43,74,.14);
+--inset-sunk:inset 0 1px 2px rgba(51,48,42,.07);
+--ring-focus:0 0 0 3px rgba(28,43,74,.22);
+--ring-accent:0 0 0 3px rgba(242,84,91,.22);
+}

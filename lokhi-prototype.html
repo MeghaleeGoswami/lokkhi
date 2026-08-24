@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lokhi — 4 Screens Prototype</title>
+<link rel="stylesheet" href="./lokhi-assets/styles.css">
+<style>
+:root{
+  /* Deliberate, minimal extension — same pattern the system used for Wisteria Wand (reserved for the fairy).
+     Denim Ledger is reserved exclusively for the Big Decisions screen identity. */
+  --denim-ledger:#3E5C76;
+  --denim-ledger-press:#324A5E;
+  --denim-ledger-12:#E3E9ED;
+  --screen-decisions: var(--denim-ledger);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:#EAE1D2;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:22px;
+  padding:36px 16px 90px;
+  font-family:var(--font-body);
+}
+
+/* ============ CONTROL BAR (outside phone, demo-only) ============ */
+.intro{max-width:460px;text-align:center;}
+.intro h1{font-family:var(--font-display-latin);font-size:24px;margin:0 0 6px;color:var(--text-heading);}
+.intro p{margin:0;font-size:14px;line-height:1.55;color:var(--text-muted);}
+.control-bar{max-width:460px;width:100%;text-align:center;}
+.control-label{display:block;font:500 11px/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;}
+.persona-switch{display:inline-grid;grid-auto-flow:column;gap:2px;padding:3px;border-radius:999px;background:var(--surface-sunk);box-shadow:var(--inset-sunk);}
+.persona-btn{border:none;background:transparent;height:36px;padding:0 16px;border-radius:999px;font:500 13px var(--font-body);color:var(--text-muted);cursor:pointer;transition:background .16s var(--ease-standard), color .16s var(--ease-standard);}
+.persona-btn.active{background:var(--surface-card);box-shadow:var(--shadow-1);color:var(--text-heading);}
+.control-hint{max-width:420px;margin:12px auto 0;font-size:13px;line-height:1.55;color:var(--text-muted);}
+
+/* ============ PHONE CHROME ============ */
+.phone{width:340px;height:700px;background:#161513;border-radius:44px;padding:12px;box-shadow:0 24px 60px rgba(28,43,74,.30);position:relative;flex:0 0 auto;}
+.phone-notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:110px;height:22px;background:#161513;border-radius:0 0 16px 16px;z-index:6;}
+.phone-screen{position:relative;width:100%;height:100%;background:var(--surface-base);border-radius:32px;overflow:hidden;display:flex;flex-direction:column;}
+
+/* ============ SCREENS ============ */
+.screen{display:none;flex:1;min-height:0;flex-direction:column;}
+.screen.active{display:flex;}
+.screen-scroll{flex:1;overflow-y:auto;padding:0 20px 28px;}
+.screen-scroll::-webkit-scrollbar{width:0;}
+
+.screen-header{display:flex;align-items:center;gap:12px;padding:26px 20px 16px;flex:0 0 auto;}
+.screen-header.inverse{background:var(--surface-inverse);color:var(--text-on-inverse);}
+.screen-header .owl-mini{width:30px;height:auto;flex:0 0 auto;display:block;}
+.screen-header h2{font-family:var(--font-display-latin);font-size:var(--size-title);font-weight:700;letter-spacing:var(--tracking-title);line-height:1.2;margin:0;color:inherit;}
+.screen-header p.sub{margin:4px 0 0;font-size:var(--size-caption);color:var(--text-muted);}
+.screen-header.inverse p.sub{color:#A9B2C4;}
+.header-flex{flex:1;min-width:0;}
+.header-action{display:grid;place-items:center;width:44px;height:44px;border-radius:999px;background:var(--surface-card);border:1px solid var(--border-hairline);color:var(--text-heading);cursor:pointer;flex:0 0 auto;}
+.screen-header.inverse .header-action{background:rgba(247,241,232,.12);border-color:rgba(247,241,232,.2);color:var(--text-on-inverse);}
+
+/* ============ ICONS (Lucide via mask) ============ */
+.icon{display:inline-block;flex:0 0 auto;background:currentColor;-webkit-mask-image:var(--i);mask-image:var(--i);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain;}
+.i16{width:16px;height:16px;}
+.i20{width:20px;height:20px;}
+.i24{width:24px;height:24px;}
+
+/* ============ TYPE / MONEY ============ */
+.eyebrow{font:500 11px/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);}
+.money{font-family:var(--font-data);font-variant-numeric:tabular-nums lining-nums;font-feature-settings:"tnum" 1,"lnum" 1;letter-spacing:0;white-space:nowrap;}
+.money-hero{font-size:var(--size-hero);font-weight:700;letter-spacing:var(--tracking-hero);line-height:var(--leading-tight);color:var(--text-heading);}
+.money-display{font-size:var(--size-display);font-weight:700;letter-spacing:var(--tracking-hero);color:var(--text-heading);}
+.money-title{font-size:var(--size-title);font-weight:600;color:var(--text-heading);}
+.money-body{font-size:var(--size-body);font-weight:500;color:var(--text-body);}
+.money-cap{font-size:var(--size-caption);font-weight:500;}
+.money.gain{color:var(--value-gain);}
+.money.loss{color:var(--value-loss);}
+.money.flat{color:var(--value-flat);}
+.money.inverse-text{color:var(--text-on-inverse);}
+h3.section-title{font-family:var(--font-display-latin);font-size:var(--size-section);font-weight:600;color:var(--text-heading);margin:0;}
+
+/* ============ BUTTONS ============ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 22px;border-radius:999px;font:500 15px var(--font-body);cursor:pointer;border:1px solid transparent;transition:transform .09s var(--ease-standard),background .16s var(--ease-standard),box-shadow .16s var(--ease-standard);}
+.btn:active{transform:scale(.975);}
+.btn-block{width:100%;}
+.btn-sm{height:38px;padding:0 16px;font-size:13px;gap:6px;}
+.btn-primary{background:var(--coral-pulse);color:#fff;box-shadow:var(--shadow-2);}
+.btn-primary:hover{background:var(--coral-pulse-press);}
+.btn-primary.decisions{background:var(--denim-ledger);}
+.btn-primary.decisions:hover{background:var(--denim-ledger-press);}
+.btn-secondary{background:var(--surface-card);color:var(--text-heading);border-color:var(--border-hairline);box-shadow:var(--shadow-1);}
+.btn-secondary:hover{background:var(--surface-sunk);}
+.btn-ghost{background:transparent;color:var(--text-heading);border-color:var(--border-hairline);}
+.btn-ghost:hover{background:var(--surface-sunk);}
+.btn-quiet{background:var(--action-primary-tint);color:var(--coral-pulse-press);}
+.btn-quiet.assistant{background:var(--assistant-tint);color:var(--wisteria-wand);}
+
+/* ============ CARD ============ */
+.card{background:var(--surface-card);border:1px solid var(--border-hairline);border-radius:var(--radius-card);box-shadow:var(--shadow-1);padding:20px;}
+.card + .card, .card + .section-block, .section-block + .card{margin-top:16px;}
+.section-block{margin-top:28px;}
+.card--sunk{background:var(--surface-sunk);border-color:transparent;box-shadow:none;}
+.card--inverse{background:var(--surface-inverse);color:var(--text-on-inverse);border-color:transparent;}
+.card--ontrack{background:var(--stage-ontrack-tint);border-color:transparent;}
+.card--behind{background:var(--stage-behind-tint);border-color:transparent;}
+.card--decisions{background:var(--denim-ledger-12);border-color:transparent;}
+.card-row{display:flex;align-items:center;gap:16px;}
+
+/* ============ BADGE / CHIP ============ */
+.badge{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;font:500 11px/1 var(--font-body);letter-spacing:.02em;white-space:nowrap;}
+.badge-neutral{background:var(--surface-sunk);color:var(--text-muted);}
+.badge-ontrack{background:var(--stage-ontrack-tint);color:var(--moss-growth);}
+.badge-behind{background:var(--stage-behind-tint);color:var(--dim-ember);}
+.badge-exceeding{background:var(--stage-exceeding-tint);color:var(--gold-thread);}
+.badge-accent{background:var(--coral-pulse-12);color:var(--coral-pulse-press);}
+.badge-decisions{background:var(--denim-ledger-12);color:var(--denim-ledger);}
+
+.chip-row{display:flex;gap:8px;flex-wrap:wrap;}
+.chip{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:999px;background:var(--surface-card);color:var(--text-body);border:1px solid var(--border-hairline);font:500 13px var(--font-body);cursor:pointer;transition:background .16s var(--ease-standard),color .16s var(--ease-standard);}
+.chip.active{background:var(--ink-indigo);color:var(--sand-paper);border-color:var(--ink-indigo);}
+
+/* ============ LIST ROW ============ */
+.list-row{display:flex;align-items:center;gap:12px;min-height:44px;padding:12px 0;border-bottom:1px solid var(--border-hairline);}
+.list-row:last-child{border-bottom:none;}
+.row-icon{display:grid;place-items:center;width:36px;height:36px;flex:0 0 auto;border-radius:10px;background:var(--surface-sunk);color:var(--ink-indigo);}
+.row-main{flex:1;min-width:0;}
+.row-label{display:block;font:500 15px var(--font-body);color:var(--text-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.row-sub{display:block;margin-top:3px;font:400 13px var(--font-body);color:var(--text-muted);}
+.row-value{text-align:right;flex:0 0 auto;}
+
+/* ============ OWL STATUS ============ */
+.owl-status{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.owl-halo{position:relative;display:grid;place-items:center;}
+.owl-halo::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 52%, var(--halo,var(--stage-ontrack-tint)) 0%, var(--halo,var(--stage-ontrack-tint)) 58%, transparent 72%);}
+.owl-halo img{position:relative;display:block;}
+.owl-caption{font-family:var(--font-display-latin);font-size:var(--size-body);font-weight:500;text-align:center;}
+
+/* ============ TARGET PROGRESS ============ */
+.tp-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.tp-head .label{font-size:var(--size-caption);color:var(--text-muted);}
+.tp-head .pct{font-family:var(--font-data);font-size:var(--size-caption);font-weight:600;font-variant-numeric:tabular-nums;}
+.tp-track{position:relative;height:10px;border-radius:999px;background:var(--surface-sunk);overflow:hidden;box-shadow:var(--inset-sunk);}
+.tp-fill{position:absolute;inset:0 auto 0 0;border-radius:999px;transition:width .4s var(--ease-standard);}
+
+/* ============ GOLDEN PATH CHART ============ */
+.gp-legend{display:flex;align-items:center;gap:8px;font-size:var(--size-caption);color:var(--text-muted);margin-bottom:10px;flex-wrap:wrap;}
+.gp-legend .dash{width:16px;height:0;border-top:2px dashed var(--gold-thread);display:inline-block;}
+.gp-legend .solid{width:16px;height:0;border-top:2px solid var(--moss-growth);display:inline-block;margin-left:8px;}
+.gp-chart{display:block;width:100%;overflow:visible;}
+
+/* ============ SEGMENTED ============ */
+.segmented{display:grid;gap:2px;padding:3px;border-radius:999px;background:var(--surface-sunk);box-shadow:var(--inset-sunk);}
+.segmented button{height:34px;border:none;border-radius:999px;background:transparent;color:var(--text-muted);font:400 13px var(--font-body);cursor:pointer;}
+.segmented button.active{background:var(--surface-card);box-shadow:var(--shadow-1);color:var(--text-heading);font-weight:500;}
+
+/* ============ FIELD / SELECT ============ */
+.field{display:block;margin-bottom:16px;}
+.field .flabel{display:block;margin-bottom:8px;font:500 13px var(--font-body);color:var(--text-body);}
+.field .fwrap{display:flex;align-items:center;gap:6px;height:44px;padding:0 14px;border-radius:14px;background:var(--surface-card);border:1px solid var(--border-hairline);}
+.field .fwrap:focus-within{border-color:var(--ink-indigo);box-shadow:var(--ring-focus);}
+.field .fwrap span.prefix{color:var(--text-muted);font-family:var(--font-data);font-size:15px;}
+.field input{flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:var(--font-data);font-size:15px;color:var(--text-body);font-variant-numeric:tabular-nums;text-align:right;}
+.selectwrap{position:relative;}
+.selectwrap select{appearance:none;width:100%;height:44px;padding:0 40px 0 14px;border-radius:14px;background:var(--surface-card);border:1px solid var(--border-hairline);color:var(--text-body);font-size:15px;cursor:pointer;font-family:var(--font-body);}
+.selectwrap .chev{position:absolute;right:14px;top:50%;margin-top:-8px;color:var(--text-muted);pointer-events:none;}
+
+.assumption{padding:12px 0;border-bottom:1px solid var(--border-hairline);}
+.assumption:last-child{border-bottom:none;}
+.assumption-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.assumption-head .lbl{font-size:15px;color:var(--text-body);}
+.assumption-head .val{font-family:var(--font-data);font-size:17px;font-weight:600;color:var(--text-heading);font-variant-numeric:tabular-nums;}
+.assumption input[type=range]{width:100%;accent-color:var(--ink-indigo);}
+.assumption .src{display:block;margin-top:4px;font-size:11px;color:var(--text-muted);}
+
+/* ============ TWO-UP FORM ============ */
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;}
+
+/* ============ SHEET ============ */
+.sheet-overlay{position:absolute;inset:0;display:flex;align-items:flex-end;pointer-events:none;z-index:40;}
+.sheet-overlay.open{pointer-events:auto;}
+.sheet-scrim{position:absolute;inset:0;background:rgba(28,43,74,.34);opacity:0;transition:opacity .24s var(--ease-standard);}
+.sheet-overlay.open .sheet-scrim{opacity:1;}
+.sheet-panel{position:relative;width:100%;max-height:82%;overflow:auto;background:var(--surface-card);border-radius:28px 28px 0 0;box-shadow:var(--shadow-sheet);padding:20px 20px 32px;transform:translateY(101%);transition:transform .38s var(--ease-standard);}
+.sheet-overlay.open .sheet-panel{transform:translateY(0);}
+.sheet-handle{width:40px;height:4px;border-radius:2px;background:var(--charcoal-ink-30);margin:0 auto 16px;}
+.sheet-titlebar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.sheet-titlebar h3{font-family:var(--font-display-latin);font-size:var(--size-section);font-weight:700;color:var(--text-heading);margin:0;}
+.sheet-close{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:none;background:var(--surface-sunk);color:var(--text-muted);cursor:pointer;}
+
+/* ============ FAIRY ASSISTANT ============ */
+.fairy{position:absolute;right:16px;bottom:88px;z-index:45;display:flex;flex-direction:column;align-items:flex-end;gap:12px;}
+.fairy-bubble{width:260px;background:var(--surface-card);border-radius:20px;border:1px solid var(--assistant-ring);box-shadow:var(--shadow-3);padding:16px;display:none;flex-direction:column;gap:12px;}
+.fairy.open .fairy-bubble{display:flex;}
+.fairy-head{display:flex;align-items:center;gap:8px;}
+.fairy-head .dot{width:30px;height:30px;border-radius:50%;background:var(--assistant-tint);display:grid;place-items:center;flex:0 0 auto;overflow:hidden;}
+.fairy-head .dot img{width:22px;}
+.fairy-head .name{font-weight:500;font-size:13px;color:var(--assistant);flex:1;}
+.fairy-head button{width:22px;height:22px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;font-size:15px;line-height:1;}
+.fairy-msg{font-size:13px;line-height:1.55;color:var(--text-body);margin:0;}
+.fairy-sugg{display:flex;flex-wrap:wrap;gap:8px;}
+.fairy-sugg button{font:500 12px var(--font-body);padding:8px 12px;border-radius:999px;cursor:pointer;border:1px solid var(--assistant-ring);background:transparent;color:var(--wisteria-wand);}
+.fairy-fab{width:58px;height:58px;border-radius:50%;cursor:pointer;background:var(--surface-card);border:2px solid var(--wisteria-wand);box-shadow:var(--shadow-3),0 0 0 6px var(--assistant-ring);display:grid;place-items:center;padding:0;}
+.fairy-fab img{width:34px;transform:translate(-1px,1px);}
+
+/* ============ TAB BAR ============ */
+.tabbar{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:8px 8px 18px;background:var(--surface-card);border-top:1px solid var(--border-hairline);flex:0 0 auto;}
+.tab{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:44px;padding:6px 0 2px;border:none;background:transparent;cursor:pointer;color:var(--text-muted);font-size:10px;font-weight:400;}
+.tab .pill{display:grid;place-items:center;width:40px;height:24px;border-radius:999px;}
+.tab.active{color:var(--tab-color);font-weight:500;}
+.tab.active .pill{background:var(--tab-tint);}
+
+/* ============ SCENARIO CARD ============ */
+.scenario{display:flex;align-items:flex-start;gap:12px;padding:16px 0;border-bottom:1px solid var(--border-hairline);cursor:pointer;}
+.scenario:last-child{border-bottom:none;}
+.check{width:22px;height:22px;border-radius:50%;border:2px solid var(--charcoal-ink-30);flex:0 0 auto;margin-top:2px;transition:background .16s,border-color .16s;}
+.scenario.selected .check{background:var(--moss-growth);border-color:var(--moss-growth);}
+.scenario-main{flex:1;}
+.scenario-title{font:500 15px var(--font-body);color:var(--text-body);margin:0 0 4px;}
+.scenario-effect{font:400 13px var(--font-body);color:var(--text-muted);margin:0;}
+
+/* ============ TOAST ============ */
+.toast{position:absolute;left:20px;right:20px;bottom:96px;background:var(--ink-indigo);color:var(--sand-paper);padding:12px 16px;border-radius:14px;font-size:13px;box-shadow:var(--shadow-3);opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s;pointer-events:none;z-index:50;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* upload dropzone */
+.dropzone{border:1.5px dashed var(--border-strong);border-radius:16px;padding:20px;text-align:center;background:var(--surface-sunk);}
+.dropzone .icon{margin:0 auto 8px;color:var(--ink-indigo);}
+.dropzone .dz-title{font:500 14px var(--font-body);color:var(--text-body);margin:0 0 4px;}
+.dropzone .dz-sub{font:400 12px var(--font-body);color:var(--text-muted);margin:0;}
+
+footer.hint{max-width:340px;text-align:center;font-size:12px;line-height:1.5;color:var(--text-muted);}
+</style>
+</head>
+<body data-persona="secure">
+
+<div class="intro">
+  <h1>Lokhi — four screens, one shell</h1>
+  <p>Net worth (upload &amp; visualize) · Playground (simulate) · Big decisions (weigh a big purchase) · Grow (index picks &amp; AI ideas). Built on the real Lokhi design system.</p>
+</div>
+
+<div class="control-bar">
+  <span class="control-label">Persona shell — try this first</span>
+  <div class="persona-switch">
+    <button class="persona-btn" data-persona-btn="avoidant">Avoidant</button>
+    <button class="persona-btn active" data-persona-btn="secure">Secure</button>
+    <button class="persona-btn" data-persona-btn="anxious">Anxious</button>
+  </div>
+  <p class="control-hint">This is Lokhi's answer to "I'm tired of looking, so I don't look." Avoidant hides numbers behind the owl. Secure shows rounded figures. Anxious shows everything, exactly, always.</p>
+</div>
+
+<div class="phone">
+  <div class="phone-notch"></div>
+  <div class="phone-screen">
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 1 — NET WORTH (visualizer + PDF upload)                -->
+    <!-- ============================================================ -->
+    <section class="screen active" data-panel="networth">
+      <div class="screen-header inverse">
+        <div class="header-flex">
+          <h2>Net worth</h2>
+          <p class="sub">As of 12 June</p>
+        </div>
+        <button class="header-action" data-open-sheet="assumptions" aria-label="Assumptions">
+          <span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/settings.svg')"></span>
+        </button>
+      </div>
+
+      <div class="screen-scroll">
+        <div class="screen-header inverse" style="padding:8px 0 24px;flex-direction:column;">
+          <div class="owl-status">
+            <div class="owl-halo" style="--halo:var(--stage-ontrack-tint);width:150px;height:150px;">
+              <img src="./lokhi-assets/assets/owl/owl-young-young.png" style="width:123px;">
+            </div>
+            <span class="owl-caption" style="color:var(--moss-growth);">Growing steadily</span>
+            <span class="money money-display" data-money="4182300" data-revealable style="margin-top:2px;">~¥4.2M</span>
+            <span class="money money-cap gain" data-money="62400" data-show-plus data-revealable>+~¥62K this month</span>
+            <button class="btn btn-ghost btn-sm" id="revealToggle" style="margin-top:12px;background:rgba(247,241,232,.1);border-color:rgba(247,241,232,.22);color:var(--text-on-inverse);">
+              <span class="icon i16" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/eye.svg');"></span>
+              <span id="revealLabel">Show the numbers</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="gp-legend"><span class="dash"></span> Golden path <span class="solid"></span> Actual</div>
+          <svg class="gp-chart" viewBox="0 0 600 96" preserveAspectRatio="none" height="96">
+            <path d="M0,80 C120,66 180,58 260,44 C340,30 420,20 600,4" fill="none" stroke="#C99A3D" stroke-width="2" stroke-dasharray="5 6" stroke-linecap="round" opacity=".75"/>
+            <path d="M0,82 C110,70 190,50 270,40 C350,28 430,16 600,2" fill="none" stroke="#4C7A5E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="600" cy="2" r="5" fill="#4C7A5E" stroke="#FFFDF8" stroke-width="2.5"/>
+          </svg>
+          <p style="margin:12px 0 0;font-size:12px;line-height:1.55;color:var(--text-muted);">The golden path is a rough shape of where your target says you should be. Actual is what happened.</p>
+        </div>
+
+        <div class="section-block">
+          <div class="card-row" style="justify-content:space-between;margin-bottom:14px;">
+            <h3 class="section-title">Add a statement</h3>
+            <span class="badge badge-ontrack">PDF import</span>
+          </div>
+          <div class="dropzone">
+            <span class="icon i24" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/upload-cloud.svg');display:block;margin:0 auto 8px;"></span>
+            <p class="dz-title">Drop PDFs here, or choose files</p>
+            <p class="dz-sub">Works with most Japanese and international banks — Lokhi reads the PDF, nothing is typed by hand.</p>
+            <button class="btn btn-secondary btn-sm" style="margin-top:14px;">Choose files</button>
+          </div>
+          <div class="card" style="margin-top:14px;padding:8px 20px;">
+            <div class="list-row">
+              <span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/file-check-2.svg');"></span></span>
+              <span class="row-main"><span class="row-label">SMBC · Ordinary account</span><span class="row-sub">Added 2 days ago · 3 pages read</span></span>
+              <span class="row-value"><span class="badge badge-ontrack">Processed</span></span>
+            </div>
+            <div class="list-row">
+              <span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/file-check-2.svg');"></span></span>
+              <span class="row-main"><span class="row-label">Prestia · Foreign currency</span><span class="row-sub">Added 2 days ago · 1 page read</span></span>
+              <span class="row-value"><span class="badge badge-ontrack">Processed</span></span>
+            </div>
+            <div class="list-row">
+              <span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/file-clock.svg');"></span></span>
+              <span class="row-main"><span class="row-label">Rakuten Card</span><span class="row-sub">Added 1 week ago · 2 pages read</span></span>
+              <span class="row-value"><span class="badge badge-neutral">Processed</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="card-row" style="justify-content:space-between;margin-bottom:14px;">
+            <h3 class="section-title">What's connected</h3>
+            <span class="badge badge-ontrack">5 accounts</span>
+          </div>
+          <div class="chip-row" style="margin-bottom:14px;">
+            <button class="chip active">Everything</button>
+            <button class="chip">Assets only</button>
+          </div>
+          <div class="card" style="padding:8px 20px;">
+            <div class="list-row">
+              <span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/landmark.svg');"></span></span>
+              <span class="row-main"><span class="row-label">MUFG Ordinary ****1234</span></span>
+              <span class="row-value">
+                <span class="money money-body" data-money="842300" data-revealable style="display:block;">~¥840K</span>
+                <span class="money money-cap gain" data-money="18200" data-show-plus data-revealable>+~¥18K</span>
+              </span>
+            </div>
+            <div class="list-row">
+              <span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/landmark.svg');"></span></span>
+              <span class="row-main"><span class="row-label">Japan Post Ordinary ****8890</span></span>
+              <span class="row-value">
+                <span class="money money-body" data-money="356100" data-revealable style="display:block;">~¥360K</span>
+                <span class="money money-cap loss" data-money="-4400" data-revealable>-~¥4.4K</span>
+              </span>
+            </div>
+            <div class="list-row">
+              <span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/credit-card.svg');"></span></span>
+              <span class="row-main"><span class="row-label">Rakuten Card</span></span>
+              <span class="row-value">
+                <span class="money money-body loss" data-money="-98110" data-revealable style="display:block;">-~¥98K</span>
+                <span class="money money-cap loss" data-money="-12400" data-revealable>-~¥12K</span>
+              </span>
+            </div>
+            <div class="list-row">
+              <span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/wallet.svg');"></span></span>
+              <span class="row-main"><span class="row-label">PayPay balance</span></span>
+              <span class="row-value">
+                <span class="money money-body" data-money="7400" data-revealable style="display:block;">~¥7.4K</span>
+                <span class="money money-cap gain" data-money="900" data-show-plus data-revealable>+~¥900</span>
+              </span>
+            </div>
+            <div class="list-row">
+              <span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/trending-up.svg');"></span></span>
+              <span class="row-main"><span class="row-label">Tsumitate NISA (eMAXIS Slim)</span></span>
+              <span class="row-value">
+                <span class="money money-body gain" data-money="2874610" data-revealable style="display:block;">~¥2.9M</span>
+                <span class="money money-cap gain" data-money="60100" data-show-plus data-revealable>+~¥60K</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block" data-persona-show="secure,anxious">
+          <div class="card-row" style="justify-content:space-between;margin-bottom:14px;">
+            <h3 class="section-title">Where it went</h3>
+            <span style="font-size:12px;color:var(--text-muted);">June</span>
+          </div>
+          <div class="card">
+            <div class="card-row" style="justify-content:space-between;align-items:flex-end;">
+              <div>
+                <span class="eyebrow" style="display:block;margin-bottom:8px;">Spent this month</span>
+                <span class="money money-title" data-money="318400" data-revealable>~¥320K</span>
+              </div>
+              <span style="font-size:12px;color:var(--moss-growth);max-width:110px;text-align:right;">A little lighter than last month</span>
+            </div>
+            <p data-persona-show="secure" style="margin:14px 0 0;font-size:12px;color:var(--text-muted);">Your own prices are up ~2.4% over a year — that's your basket, not the national figure.</p>
+          </div>
+          <div class="card" style="margin-top:12px;padding:6px 20px;">
+            <div class="list-row"><span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/home.svg');"></span></span><span class="row-main"><span class="row-label">Rent</span><span class="row-sub" data-persona-show="secure">40% of spending</span><span class="row-sub" data-persona-show="anxious">1 payment · flat vs last year</span></span><span class="row-value"><span class="money money-body" data-money="128000" data-revealable>~¥128K</span></span></div>
+            <div class="list-row"><span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/utensils.svg');"></span></span><span class="row-main"><span class="row-label">Food</span><span class="row-sub" data-persona-show="secure">Prices +4.1% this year</span><span class="row-sub" data-persona-show="anxious">28 payments · +4.1% this year</span></span><span class="row-value"><span class="money money-body" data-money="71240" data-revealable>~¥71K</span></span></div>
+            <div class="list-row"><span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/zap.svg');"></span></span><span class="row-main"><span class="row-label">Bills</span><span class="row-sub" data-persona-show="secure">Prices +6.8% this year</span><span class="row-sub" data-persona-show="anxious">6 payments · +6.8% this year</span></span><span class="row-value"><span class="money money-body" data-money="42610" data-revealable>~¥43K</span></span></div>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary btn-block section-block">
+          <span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/plus.svg');"></span>
+          Connect an account
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 2 — PLAYGROUND (simulate goals)                        -->
+    <!-- ============================================================ -->
+    <section class="screen" data-panel="playground">
+      <div class="screen-header">
+        <div class="header-flex">
+          <h2>Playground</h2>
+          <p class="sub">Try a what-if without the dread</p>
+        </div>
+        <button class="header-action" id="resetScenarios" aria-label="Reset">
+          <span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/rotate-ccw.svg');"></span>
+        </button>
+      </div>
+      <div class="screen-scroll">
+        <div class="card card--sunk card-row">
+          <div class="owl-halo" style="--halo:var(--stage-ontrack-tint);width:84px;height:84px;">
+            <img id="pgOwlImg" src="./lokhi-assets/assets/owl/owl-young-young.png" style="width:69px;">
+          </div>
+          <div>
+            <p id="pgStatusText" style="margin:0;font-size:14px;line-height:1.5;color:var(--text-body);">Nothing you try here changes your data.</p>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="segmented" style="grid-template-columns:repeat(4,1fr);">
+            <button class="active">1Y</button>
+            <button>5Y</button>
+            <button>10Y</button>
+            <button>To retirement</button>
+          </div>
+        </div>
+
+        <div class="card section-block">
+          <div class="gp-legend"><span class="dash"></span> Golden path <span class="solid"></span> This mix</div>
+          <svg class="gp-chart" viewBox="0 0 600 104" preserveAspectRatio="none" height="104">
+            <path d="M0,86 C120,70 200,60 280,48 C360,34 440,24 600,6" fill="none" stroke="#C99A3D" stroke-width="2" stroke-dasharray="5 6" stroke-linecap="round" opacity=".75"/>
+            <path id="pgActualPath" d="M0,88 C110,74 190,58 270,46 C350,32 430,18 600,4" fill="none" stroke="#4C7A5E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .3s var(--ease-standard);"/>
+            <circle id="pgActualDot" cx="600" cy="4" r="5" fill="#4C7A5E" stroke="#FFFDF8" stroke-width="2.5"/>
+          </svg>
+        </div>
+
+        <div class="card section-block">
+          <div class="tp-head"><span class="label">Progress to target</span><span class="pct" id="pgPct">68%</span></div>
+          <div class="tp-track"><div class="tp-fill" id="pgFill" style="width:68%;background:var(--moss-growth);"></div></div>
+        </div>
+
+        <div class="section-block">
+          <div class="card-row" style="justify-content:space-between;margin-bottom:8px;">
+            <h3 class="section-title">Things to try</h3>
+            <span class="badge badge-accent" id="pgSelectedCount">0 selected</span>
+          </div>
+          <div class="card" style="padding:4px 20px;">
+            <div class="scenario" data-delta="0.06">
+              <div class="check"></div>
+              <div class="scenario-main">
+                <p class="scenario-title">Add ¥10,000 to the monthly contribution</p>
+                <p class="scenario-effect">Reaches your target about 1 yr 4 mo sooner</p>
+              </div>
+            </div>
+            <div class="scenario" data-delta="-0.05">
+              <div class="check"></div>
+              <div class="scenario-main">
+                <p class="scenario-title">Move somewhere with a longer commute</p>
+                <p class="scenario-effect">Rent +¥15,000/month — pushes your target about 10 months later</p>
+              </div>
+            </div>
+            <div class="scenario" data-delta="0.09">
+              <div class="check"></div>
+              <div class="scenario-main">
+                <p class="scenario-title">Put half of this year's bonus into NISA</p>
+                <p class="scenario-effect">Reaches your target about 2 yr sooner</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card--inverse section-block" data-persona-show="secure,anxious">
+          <span class="eyebrow" style="color:#A9B2C4;">Projected at retirement, this mix</span>
+          <div class="money money-display inverse-text" id="pgProjected" data-money="22584420" style="display:block;margin-top:8px;">~¥22.6M</div>
+        </div>
+
+        <button class="btn btn-primary btn-block section-block" id="pgCommit">Go with this shape</button>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 3 — BIG DECISIONS (new — house/car risk simulator)     -->
+    <!-- ============================================================ -->
+    <section class="screen" data-panel="decisions">
+      <div class="screen-header">
+        <div class="header-flex">
+          <h2 style="color:var(--denim-ledger);">Big decisions</h2>
+          <p class="sub">Weigh a big purchase before it weighs on you</p>
+        </div>
+        <button class="header-action" aria-label="Saved scenarios">
+          <span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/bookmark.svg');color:var(--denim-ledger);"></span>
+        </button>
+      </div>
+      <div class="screen-scroll">
+        <div class="card card--decisions card-row">
+          <div class="owl-halo" style="--halo:var(--denim-ledger-12);width:72px;height:72px;">
+            <img id="bdOwlImg" src="./lokhi-assets/assets/owl/owl-young-ink.png" style="width:59px;">
+          </div>
+          <p style="margin:0;font-size:13px;line-height:1.5;color:var(--text-body);">Nothing here becomes real until you save it. Explore as many shapes as you like.</p>
+        </div>
+
+        <div class="section-block chip-row">
+          <button class="chip active" data-decision="house">
+            <span class="icon i16" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/home.svg');"></span>House
+          </button>
+          <button class="chip" data-decision="car">
+            <span class="icon i16" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/car.svg');"></span>Car
+          </button>
+          <button class="chip" data-decision="other">Something else</button>
+        </div>
+
+        <div class="card section-block">
+          <div class="field">
+            <span class="flabel" id="bdPriceLabel">Property price</span>
+            <div class="fwrap"><span class="prefix">¥</span><input type="text" inputmode="numeric" id="bdPrice" value="42,000,000"></div>
+          </div>
+          <div class="field">
+            <span class="flabel">From your savings</span>
+            <div class="fwrap"><span class="prefix">¥</span><input type="text" inputmode="numeric" id="bdDown" value="6,000,000"></div>
+          </div>
+          <div class="form-2col">
+            <div class="field">
+              <span class="flabel" id="bdTermLabel">Loan term</span>
+              <div class="selectwrap">
+                <select id="bdTerm">
+                  <option value="35">35 years</option>
+                  <option value="30">30 years</option>
+                  <option value="25" selected>25 years</option>
+                  <option value="20">20 years</option>
+                  <option value="15">15 years</option>
+                </select>
+                <span class="chev icon i16" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/chevron-down.svg');"></span>
+              </div>
+            </div>
+            <div class="field">
+              <span class="flabel" id="bdRunningLabel">Fees per month</span>
+              <div class="fwrap"><span class="prefix">¥</span><input type="text" inputmode="numeric" id="bdRunning" value="25,000"></div>
+            </div>
+          </div>
+          <div class="assumption" style="border:none;padding-top:0;">
+            <div class="assumption-head"><span class="lbl">Interest rate</span><span class="val" id="bdRateVal">1.2%</span></div>
+            <input type="range" id="bdRate" min="0" max="8" step="0.1" value="1.2">
+          </div>
+        </div>
+
+        <div class="card section-block" id="bdResultCard">
+          <span class="eyebrow">Estimated monthly cost</span>
+          <div class="money money-title" id="bdMonthly" style="display:block;margin:8px 0 12px;">~¥170K / month</div>
+          <span class="badge badge-ontrack" id="bdRiskBadge">Comfortable</span>
+          <div style="margin-top:16px;">
+            <div class="tp-head"><span class="label">Progress to target, before → after</span><span class="pct" id="bdPct">68% → 51%</span></div>
+            <div class="tp-track"><div class="tp-fill" id="bdFill" style="width:51%;background:var(--dim-ember);"></div></div>
+          </div>
+          <p style="margin:14px 0 0;font-size:12px;line-height:1.5;color:var(--text-muted);" id="bdDelay">Reaches your target about 3 yr 4 mo later than it would otherwise.</p>
+        </div>
+
+        <div class="section-block">
+          <h3 class="section-title" style="margin-bottom:10px;">What this changes</h3>
+          <div class="card" style="padding:6px 20px;">
+            <div class="list-row"><span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/wallet.svg');"></span></span><span class="row-main"><span class="row-label">Cash out at signing</span></span><span class="row-value"><span class="money money-body" id="bdDownOut" data-revealable>~¥6.0M</span></span></div>
+            <div class="list-row"><span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/calendar-days.svg');"></span></span><span class="row-main"><span class="row-label">New monthly commitment</span></span><span class="row-value"><span class="money money-body" id="bdMonthlyOut" data-revealable>~¥170K</span></span></div>
+            <div class="list-row"><span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/shield.svg');"></span></span><span class="row-main"><span class="row-label">Emergency fund left after this</span></span><span class="row-value"><span class="money money-body">5.2 months</span></span></div>
+            <div class="list-row"><span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/file-text.svg');"></span></span><span class="row-main"><span class="row-label">New liability on your net worth</span></span><span class="row-value"><span class="money money-body" id="bdLoanOut" data-revealable>~¥36.0M</span></span></div>
+          </div>
+        </div>
+
+        <div class="section-block" style="display:flex;gap:10px;">
+          <button class="btn btn-ghost btn-sm" style="flex:1;">Compare with renting</button>
+          <button class="btn btn-ghost btn-sm" style="flex:1;">Compare with waiting a year</button>
+        </div>
+
+        <button class="btn btn-primary decisions btn-block section-block" id="bdSave">Save this scenario</button>
+        <button class="btn btn-quiet assistant btn-block" id="bdAskFairy" style="margin-top:10px;">Ask the fairy about this</button>
+
+        <div class="section-block">
+          <h3 class="section-title" style="margin-bottom:10px;">Scenarios you've explored</h3>
+          <div class="card" id="bdSavedCard" style="padding:6px 20px;">
+            <p style="margin:14px 0;font-size:13px;color:var(--text-muted);" id="bdEmptyState">Nothing saved yet — try a shape above and save it when it feels right.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 4 — GROW (index picks + AI recommendations)            -->
+    <!-- ============================================================ -->
+    <section class="screen" data-panel="grow">
+      <div class="screen-header">
+        <img class="owl-mini" src="./lokhi-assets/assets/owl/owl-young-ink.png">
+        <div class="header-flex">
+          <h2>Grow</h2>
+          <p class="sub">Contributions, tax, and ideas worth a look</p>
+        </div>
+        <button class="header-action" aria-label="Add holding">
+          <span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/plus.svg');"></span>
+        </button>
+      </div>
+      <div class="screen-scroll">
+        <div class="card card--ontrack card-row">
+          <div class="owl-halo" style="--halo:var(--stage-ontrack-tint);width:80px;height:80px;">
+            <img src="./lokhi-assets/assets/owl/owl-young-young.png" style="width:66px;">
+          </div>
+          <div style="flex:1;">
+            <p style="margin:0 0 10px;font-size:13px;color:var(--text-body);">A little room left in this year's NISA</p>
+            <div class="tp-track" style="height:8px;"><div class="tp-fill" style="width:72%;background:var(--moss-growth);"></div></div>
+            <span class="eyebrow" data-persona-show="anxious" style="display:block;margin-top:6px;">72% of the ¥3.6M allowance</span>
+          </div>
+        </div>
+
+        <div class="section-block chip-row">
+          <button class="chip active" data-growtab="holdings">NISA</button>
+          <button class="chip" data-growtab="tax">Tax return</button>
+          <button class="chip" data-growtab="ideas">Grow ideas</button>
+        </div>
+
+        <div class="grow-tab section-block" data-growtab-panel="holdings">
+          <div class="card" style="padding:8px 20px;">
+            <div class="list-row"><span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/globe.svg');"></span></span><span class="row-main"><span class="row-label">eMAXIS Slim All Country</span><span class="row-sub">¥33,000 / month</span></span><span class="row-value"><span class="money money-body gain" data-money="1980400" data-revealable style="display:block;">~¥2.0M</span><span class="money money-cap gain" data-money="41200" data-show-plus data-revealable>+~¥41K</span></span></div>
+            <div class="list-row"><span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/building-2.svg');"></span></span><span class="row-main"><span class="row-label">eMAXIS Slim Japan Equity</span><span class="row-sub">¥12,000 / month</span></span><span class="row-value"><span class="money money-body gain" data-money="624200" data-revealable style="display:block;">~¥620K</span><span class="money money-cap gain" data-money="12600" data-show-plus data-revealable>+~¥13K</span></span></div>
+            <div class="list-row"><span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/shield.svg');"></span></span><span class="row-main"><span class="row-label">JGB, floating 10-year</span><span class="row-sub">One-off</span></span><span class="row-value"><span class="money money-body gain" data-money="270010" data-revealable style="display:block;">~¥270K</span><span class="money money-cap gain" data-money="6300" data-show-plus data-revealable>+~¥6.3K</span></span></div>
+          </div>
+        </div>
+
+        <div class="grow-tab section-block" data-growtab-panel="tax" style="display:none;">
+          <div class="card" style="margin-bottom:12px;">
+            <div class="card-row" style="justify-content:space-between;">
+              <div class="card-row">
+                <span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/receipt.svg');"></span></span>
+                <div><p style="margin:0;font:500 15px var(--font-body);">Furusato nozei deduction cap</p><p style="margin:3px 0 0;font-size:13px;color:var(--text-muted);">On this income, you still have room</p></div>
+              </div>
+              <span class="badge badge-ontrack">Checked</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-row" style="justify-content:space-between;">
+              <div class="card-row">
+                <span class="row-icon"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/file-text.svg');"></span></span>
+                <div><p style="margin:0;font:500 15px var(--font-body);">Medical receipts</p><p style="margin:3px 0 0;font-size:13px;color:var(--text-muted);">3 still to add</p></div>
+              </div>
+              <span class="badge badge-behind">Not filed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grow-tab section-block" data-growtab-panel="ideas" style="display:none;">
+          <span class="eyebrow" style="display:block;margin-bottom:6px;">Picked for where you are, not what's trending</span>
+          <p style="margin:0 0 16px;font-size:13px;line-height:1.55;color:var(--text-muted);">Shaped by your target, this year's NISA room, and how your holdings are split today.</p>
+
+          <div class="card" style="margin-bottom:12px;">
+            <div class="card-row" style="justify-content:space-between;margin-bottom:8px;">
+              <p style="margin:0;font:600 15px var(--font-display-latin);color:var(--text-heading);">eMAXIS Slim All Country</p>
+              <span class="badge badge-ontrack">Fits your NISA room</span>
+            </div>
+            <p style="margin:0 0 10px;font-size:13px;line-height:1.5;color:var(--text-body);">You already hold this. Topping up uses your remaining ~¥1.0M of allowance before it resets in the new year.</p>
+            <div style="display:flex;gap:14px;font-size:11px;color:var(--text-muted);margin-bottom:12px;">
+              <span>Suggested horizon: 15+ years</span><span>Moves with global equities</span>
+            </div>
+            <button class="btn btn-ghost btn-sm btn-block">Add to this holding</button>
+          </div>
+
+          <div class="card" style="margin-bottom:12px;">
+            <div class="card-row" style="justify-content:space-between;margin-bottom:8px;">
+              <p style="margin:0;font:600 15px var(--font-display-latin);color:var(--text-heading);">A developed-market bond index</p>
+              <span class="badge badge-neutral">New to your mix</span>
+            </div>
+            <p style="margin:0 0 10px;font-size:13px;line-height:1.5;color:var(--text-body);">Almost everything you hold moves with global equities. A bond index moves differently, which softens the swings your anxious moments notice most.</p>
+            <div style="display:flex;gap:14px;font-size:11px;color:var(--text-muted);margin-bottom:12px;">
+              <span>Suggested horizon: 5+ years</span><span>Moves less than your average holding</span>
+            </div>
+            <button class="btn btn-ghost btn-sm btn-block">Look closer</button>
+          </div>
+
+          <div class="card">
+            <div class="card-row" style="justify-content:space-between;margin-bottom:8px;">
+              <p style="margin:0;font:600 15px var(--font-display-latin);color:var(--text-heading);">A Japan small-cap index</p>
+              <span class="badge badge-accent">Moves more</span>
+            </div>
+            <p style="margin:0 0 10px;font-size:13px;line-height:1.5;color:var(--text-body);">A smaller, more concentrated slice. Suits money you would not need for at least ten years.</p>
+            <div style="display:flex;gap:14px;font-size:11px;color:var(--text-muted);margin-bottom:12px;">
+              <span>Suggested horizon: 10+ years</span><span>Moves more than your average holding</span>
+            </div>
+            <button class="btn btn-ghost btn-sm btn-block">Look closer</button>
+          </div>
+
+          <button class="btn btn-quiet assistant btn-block section-block" id="growAskFairy">Ask why these three</button>
+        </div>
+
+        <div class="card card--sunk section-block">
+          <p style="margin:0 0 12px;font-size:13px;line-height:1.5;color:var(--text-body);">Adding ¥10,000 a month brings your owl closer to the crown.</p>
+          <button class="btn btn-primary btn-block" id="revisitBtn">Revisit your contribution</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAIRY ASSISTANT (shared) -->
+    <div class="fairy" id="fairy">
+      <div class="fairy-bubble">
+        <div class="fairy-head">
+          <span class="dot"><img src="./lokhi-assets/assets/fairy/fairy-wisteria.png"></span>
+          <span class="name">Fairy godmother</span>
+          <button id="fairyClose">×</button>
+        </div>
+        <p class="fairy-msg" id="fairyMsg">Ask me anything about what you're looking at.</p>
+        <div class="fairy-sugg" id="fairySugg">
+          <button data-q="okay">Am I okay?</button>
+          <button data-q="month">How was this month?</button>
+          <button data-q="afford">Can I afford this?</button>
+        </div>
+      </div>
+      <button class="fairy-fab" id="fairyFab" aria-label="Ask the fairy">
+        <img src="./lokhi-assets/assets/fairy/fairy-wisteria.png">
+      </button>
+    </div>
+
+    <!-- SHEET: assumptions -->
+    <div class="sheet-overlay" data-sheet="assumptions">
+      <div class="sheet-scrim" data-close-sheet></div>
+      <div class="sheet-panel">
+        <div class="sheet-handle"></div>
+        <div class="sheet-titlebar">
+          <h3>Assumptions</h3>
+          <button class="sheet-close" data-close-sheet>
+            <span class="icon i16" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/x.svg');"></span>
+          </button>
+        </div>
+        <div data-persona-show="anxious">
+          <p style="margin:0 0 16px;font-size:13px;line-height:1.55;color:var(--text-muted);">These are the figures deciding your owl's stage. All of them are editable.</p>
+          <div class="assumption">
+            <div class="assumption-head"><span class="lbl">Expected return</span><span class="val">3.2%</span></div>
+            <input type="range" min="0" max="8" step="0.1" value="3.2">
+          </div>
+          <div class="assumption">
+            <div class="assumption-head"><span class="lbl">Retirement age</span><span class="val">65 yrs</span></div>
+            <input type="range" min="55" max="75" step="1" value="65">
+          </div>
+          <div class="assumption">
+            <div class="assumption-head"><span class="lbl">Pension estimate</span><span class="val">¥1.44M/yr</span></div>
+            <input type="range" min="0" max="3" step="0.05" value="1.44">
+            <span class="src">From your nenkin-net estimate</span>
+          </div>
+          <div class="section-block">
+            <div class="tp-head"><span class="label">Progress under these assumptions</span><span class="pct">68%</span></div>
+            <div class="tp-track"><div class="tp-fill" style="width:68%;background:var(--moss-growth);"></div></div>
+          </div>
+        </div>
+        <div data-persona-show="avoidant,secure">
+          <p style="margin:0 0 20px;font-size:14px;line-height:1.6;color:var(--text-body);">Your owl grows against a target built from your income, spending, age and what you hold today. We keep an eye on the arithmetic so you don't have to.</p>
+          <button class="btn btn-quiet btn-block">Leave it to Lokhi</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB BAR -->
+    <nav class="tabbar">
+      <button class="tab active" data-tab="networth" style="--tab-color:var(--screen-networth);--tab-tint:color-mix(in srgb, var(--screen-networth) 12%, transparent);">
+        <span class="pill"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/moon-star.svg');"></span></span>Net worth
+      </button>
+      <button class="tab" data-tab="playground" style="--tab-color:var(--screen-playground);--tab-tint:color-mix(in srgb, var(--screen-playground) 12%, transparent);">
+        <span class="pill"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/shapes.svg');"></span></span>Playground
+      </button>
+      <button class="tab" data-tab="decisions" style="--tab-color:var(--denim-ledger);--tab-tint:var(--denim-ledger-12);">
+        <span class="pill"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/scale.svg');"></span></span>Decisions
+      </button>
+      <button class="tab" data-tab="grow" style="--tab-color:var(--screen-grow);--tab-tint:color-mix(in srgb, var(--screen-grow) 12%, transparent);">
+        <span class="pill"><span class="icon i20" style="--i:url('https://unpkg.com/lucide-static@0.446.0/icons/sprout.svg');"></span></span>Grow
+      </button>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+  </div>
+</div>
+
+<footer class="hint">Tap the tab bar to move between screens. Fields in Big decisions recalculate live. Fairy button floats on every screen.</footer>
+
+<script>
+/* ================= PERSONA + MONEY FORMATTING ================= */
+let currentPersona = 'secure';
+let revealed = false;
+
+function fmtMoney(value, persona, showPlus, forceAnxious){
+  const sign = value < 0 ? '-' : (showPlus && value > 0 ? '+' : '');
+  const abs = Math.abs(value);
+  const p = forceAnxious ? 'anxious' : persona;
+  if(p === 'avoidant') return '••••';
+  if(p === 'anxious') return sign + '¥' + abs.toLocaleString('en-US');
+  let short;
+  if(abs >= 1000000) short = (Math.round(abs/100000)/10) + 'M';
+  else if(abs >= 1000) short = Math.round(abs/1000) + 'K';
+  else short = abs;
+  return sign + '~¥' + short;
+}
+
+function renderMoney(){
+  document.querySelectorAll('[data-money]').forEach(el=>{
+    const v = parseFloat(el.getAttribute('data-money'));
+    const showPlus = el.hasAttribute('data-show-plus');
+    const forceAnxious = revealed && el.hasAttribute('data-revealable');
+    el.textContent = fmtMoney(v, currentPersona, showPlus, forceAnxious);
+  });
+}
+function renderPersonaVisibility(){
+  document.querySelectorAll('[data-persona-show]').forEach(el=>{
+    const allowed = el.getAttribute('data-persona-show').split(',');
+    el.style.display = allowed.includes(currentPersona) ? '' : 'none';
+  });
+}
+function applyPersona(){ renderMoney(); renderPersonaVisibility(); }
+
+document.querySelectorAll('.persona-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    currentPersona = btn.getAttribute('data-persona-btn');
+    document.body.setAttribute('data-persona', currentPersona);
+    document.querySelectorAll('.persona-btn').forEach(b=>b.classList.toggle('active', b===btn));
+    applyPersona();
+  });
+});
+
+document.getElementById('revealToggle').addEventListener('click', ()=>{
+  revealed = !revealed;
+  document.getElementById('revealLabel').textContent = revealed ? 'Hide the numbers' : 'Show the numbers';
+  renderMoney();
+});
+
+/* ================= TAB / SCREEN SWITCHING ================= */
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>goToScreen(tab.getAttribute('data-tab')));
+});
+function goToScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', s.getAttribute('data-panel')===name));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.getAttribute('data-tab')===name));
+}
+document.getElementById('revisitBtn').addEventListener('click', ()=>goToScreen('playground'));
+
+/* ================= SHEETS ================= */
+document.querySelectorAll('[data-open-sheet]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelector('.sheet-overlay[data-sheet="'+btn.getAttribute('data-open-sheet')+'"]').classList.add('open');
+  });
+});
+document.querySelectorAll('[data-close-sheet]').forEach(el=>{
+  el.addEventListener('click', ()=>{ el.closest('.sheet-overlay').classList.remove('open'); });
+});
+
+/* ================= FAIRY ASSISTANT ================= */
+const fairy = document.getElementById('fairy');
+document.getElementById('fairyFab').addEventListener('click', ()=>fairy.classList.toggle('open'));
+document.getElementById('fairyClose').addEventListener('click', ()=>fairy.classList.remove('open'));
+const fairyResponses = {
+  avoidant: { okay:"You're okay. Nothing this month needs you to do anything.", month:"Nothing needs your attention this month.", afford:"It looks manageable. You can look closer any time you want to." },
+  secure: { okay:"You're okay. Spending is ~5% above your usual month — food, mostly. Your target is still comfortable.", month:"A little lighter than last month, mostly less eating out.", afford:"Comfortably, based on your current mix and what you hold today." },
+  anxious: { okay:"Net worth moved +¥182,300. ¥141,000 of that is NISA gains; the rest is the salary deposit on the 25th minus rent, which rose ¥4,000 in April.", month:"Spent ¥318,400, down ¥12,800 from May. Food and bills both rose slightly; rent was flat.", afford:"Based on today's assumptions, this pushes your target about 10 months later. See Big decisions for the full breakdown." }
+};
+function setFairyMsg(key){
+  document.getElementById('fairyMsg').textContent = fairyResponses[currentPersona][key] || fairyResponses.secure[key];
+  fairy.classList.add('open');
+}
+document.querySelectorAll('#fairySugg button').forEach(b=>b.addEventListener('click', ()=>setFairyMsg(b.getAttribute('data-q'))));
+document.getElementById('bdAskFairy').addEventListener('click', ()=>setFairyMsg('afford'));
+document.getElementById('growAskFairy').addEventListener('click', ()=>{
+  document.getElementById('fairyMsg').textContent = "These three fit your target and this year's remaining NISA room. Nothing here is trending — it's shaped by what you already hold.";
+  fairy.classList.add('open');
+});
+
+/* ================= PLAYGROUND SCENARIOS ================= */
+let pgTotalDelta = 0;
+const baseProgress = 0.68;
+document.querySelectorAll('.scenario').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    card.classList.toggle('selected');
+    recomputePlayground();
+  });
+});
+document.getElementById('resetScenarios').addEventListener('click', ()=>{
+  document.querySelectorAll('.scenario.selected').forEach(c=>c.classList.remove('selected'));
+  recomputePlayground();
+});
+function recomputePlayground(){
+  let total = 0, count = 0;
+  document.querySelectorAll('.scenario.selected').forEach(c=>{ total += parseFloat(c.getAttribute('data-delta')); count++; });
+  pgTotalDelta = total;
+  document.getElementById('pgSelectedCount').textContent = count + (count===1?' selected':' selected');
+  let progress = Math.max(0, baseProgress + total);
+  const pct = Math.round(Math.min(progress,1.35)*100);
+  document.getElementById('pgPct').textContent = pct + '%';
+  const fillPct = Math.min(progress,1)*100;
+  const fill = document.getElementById('pgFill');
+  fill.style.width = fillPct + '%';
+  const crowned = progress >= 1.0;
+  fill.style.background = crowned ? 'var(--gold-thread)' : 'var(--moss-growth)';
+  const owlImg = document.getElementById('pgOwlImg');
+  const statusText = document.getElementById('pgStatusText');
+  if(count===0){ statusText.textContent = "Nothing you try here changes your data."; owlImg.src = './lokhi-assets/assets/owl/owl-young-young.png'; }
+  else if(crowned){ statusText.textContent = "This mix reaches the crown."; owlImg.src = './lokhi-assets/assets/owl/owl-crown-crown.png'; }
+  else if(total > 0.03){ statusText.textContent = "This mix moves you a little further, a little sooner."; owlImg.src = './lokhi-assets/assets/owl/owl-young-young.png'; }
+  else if(total < 0){ statusText.textContent = "This mix pushes your target a little later."; owlImg.src = './lokhi-assets/assets/owl/owl-young-ink.png'; }
+  else { statusText.textContent = "This mix moves you a little further."; owlImg.src = './lokhi-assets/assets/owl/owl-young-young.png'; }
+  const shift = Math.max(-40, Math.min(40, total*260));
+  document.getElementById('pgActualPath').style.transform = 'translateY('+(-shift)+'px)';
+  document.getElementById('pgActualDot').setAttribute('cy', Math.max(2, 4-shift));
+  const projected = 4182300 * (1+progress) * 4.6;
+  document.getElementById('pgProjected').setAttribute('data-money', Math.round(projected));
+  renderMoney();
+}
+document.getElementById('pgCommit').addEventListener('click', ()=>showToast('Saved to your plan'));
+document.querySelectorAll('#playground .segmented button, [data-panel="playground"] .segmented button').forEach(b=>{
+  b.addEventListener('click', function(){
+    this.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* ================= BIG DECISIONS ================= */
+const decisionPresets = {
+  house: { priceLabel:'Property price', termLabel:'Loan term', runningLabel:'Fees per month', price:42000000, down:6000000, running:25000, rate:1.2, termOptions:[35,30,25,20,15] },
+  car: { priceLabel:'Car price', termLabel:'Loan term', runningLabel:'Insurance + shaken /mo', price:3800000, down:800000, running:18000, rate:3.5, termOptions:[7,5,3] },
+  other: { priceLabel:'Purchase price', termLabel:'Term', runningLabel:'Running costs /mo', price:2000000, down:400000, running:10000, rate:2.5, termOptions:[10,5,3,1] },
+};
+function fmtNum(n){ return Math.round(n).toLocaleString('en-US'); }
+function parseNum(str){ return parseFloat(str.replace(/[^0-9.-]/g,'')) || 0; }
+
+document.querySelectorAll('[data-decision]').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    document.querySelectorAll('[data-decision]').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    const preset = decisionPresets[chip.getAttribute('data-decision')];
+    document.getElementById('bdPriceLabel').textContent = preset.priceLabel;
+    document.getElementById('bdTermLabel').textContent = preset.termLabel;
+    document.getElementById('bdRunningLabel').textContent = preset.runningLabel;
+    document.getElementById('bdPrice').value = fmtNum(preset.price);
+    document.getElementById('bdDown').value = fmtNum(preset.down);
+    document.getElementById('bdRunning').value = fmtNum(preset.running);
+    document.getElementById('bdRate').value = preset.rate;
+    document.getElementById('bdRateVal').textContent = preset.rate + '%';
+    const sel = document.getElementById('bdTerm');
+    sel.innerHTML = preset.termOptions.map((y,i)=>'<option value="'+y+'"'+(i===0?' selected':'')+'>'+y+' years</option>').join('');
+    recomputeDecisions();
+  });
+});
+
+['bdPrice','bdDown','bdRunning','bdTerm'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', recomputeDecisions);
+  document.getElementById(id).addEventListener('change', recomputeDecisions);
+});
+document.getElementById('bdRate').addEventListener('input', function(){
+  document.getElementById('bdRateVal').textContent = this.value + '%';
+  recomputeDecisions();
+});
+
+function recomputeDecisions(){
+  const price = parseNum(document.getElementById('bdPrice').value);
+  const down = parseNum(document.getElementById('bdDown').value);
+  const running = parseNum(document.getElementById('bdRunning').value);
+  const rate = parseFloat(document.getElementById('bdRate').value);
+  const years = parseFloat(document.getElementById('bdTerm').value);
+  const loan = Math.max(0, price - down);
+  const n = years * 12;
+  const r = rate/100/12;
+  let payment = r > 0 ? loan * r / (1 - Math.pow(1+r, -n)) : loan/n;
+  if(!isFinite(payment)) payment = 0;
+  const monthlyTotal = payment + running;
+
+  document.getElementById('bdMonthly').textContent = '~¥' + Math.round(monthlyTotal/1000) + 'K / month';
+  document.getElementById('bdDownOut').setAttribute('data-money', down);
+  document.getElementById('bdMonthlyOut').setAttribute('data-money', Math.round(monthlyTotal));
+  document.getElementById('bdLoanOut').setAttribute('data-money', Math.round(loan));
+
+  const impact = Math.min(0.55, (monthlyTotal/450000) * 0.62);
+  const before = 0.68;
+  const after = Math.max(0.05, before - impact);
+  document.getElementById('bdPct').textContent = Math.round(before*100)+'% → '+Math.round(after*100)+'%';
+  document.getElementById('bdFill').style.width = (after*100)+'%';
+
+  const badge = document.getElementById('bdRiskBadge');
+  const drop = before - after;
+  const delayEl = document.getElementById('bdDelay');
+  const delayMonths = Math.round(drop * 70);
+  if(drop < 0.08){
+    badge.className = 'badge badge-ontrack'; badge.textContent = 'Comfortable';
+    document.getElementById('bdFill').style.background = 'var(--moss-growth)';
+    delayEl.textContent = 'Barely moves your target — about ' + delayMonths + ' months later, if at all.';
+  } else if(drop < 0.22){
+    badge.className = 'badge badge-decisions'; badge.textContent = 'Worth keeping an eye on';
+    document.getElementById('bdFill').style.background = 'var(--denim-ledger)';
+    delayEl.textContent = 'Reaches your target about ' + delayMonths + ' months later than it would otherwise.';
+  } else {
+    badge.className = 'badge badge-behind'; badge.textContent = 'Stretches your target';
+    document.getElementById('bdFill').style.background = 'var(--dim-ember)';
+    const yrs = Math.floor(delayMonths/12), mo = delayMonths%12;
+    delayEl.textContent = 'Reaches your target about ' + (yrs>0?yrs+' yr ':'') + mo + ' mo later than it would otherwise. Worth trying a smaller shape above.';
+  }
+  const halo = document.querySelector('#bdOwlImg').parentElement;
+  const owlImg = document.getElementById('bdOwlImg');
+  if(drop < 0.08){ owlImg.src='./lokhi-assets/assets/owl/owl-young-young.png'; halo.style.setProperty('--halo','var(--stage-ontrack-tint)'); }
+  else if(drop < 0.22){ owlImg.src='./lokhi-assets/assets/owl/owl-young-ink.png'; halo.style.setProperty('--halo','var(--denim-ledger-12)'); }
+  else { owlImg.src='./lokhi-assets/assets/owl/owl-egg-ink.png'; halo.style.setProperty('--halo','var(--stage-behind-tint)'); }
+
+  renderMoney();
+}
+document.getElementById('bdSave').addEventListener('click', ()=>{
+  const empty = document.getElementById('bdEmptyState');
+  if(empty) empty.remove();
+  const label = document.querySelector('[data-decision].active').textContent.trim();
+  const row = document.createElement('div');
+  row.className = 'list-row';
+  row.innerHTML = '<span class="row-icon"><span class="icon i20" style="--i:url(\'https://unpkg.com/lucide-static@0.446.0/icons/bookmark-check.svg\');"></span></span>' +
+    '<span class="row-main"><span class="row-label">'+label+'</span><span class="row-sub">Saved today</span></span>' +
+    '<span class="row-value"><span class="money money-body">'+document.getElementById('bdMonthly').textContent+'</span></span>';
+  document.getElementById('bdSavedCard').appendChild(row);
+  showToast('Scenario saved');
+});
+
+/* ================= GROW TABS ================= */
+document.querySelectorAll('[data-growtab]').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    document.querySelectorAll('[data-growtab]').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    const name = chip.getAttribute('data-growtab');
+    document.querySelectorAll('[data-growtab-panel]').forEach(p=>{
+      p.style.display = p.getAttribute('data-growtab-panel')===name ? '' : 'none';
+    });
+  });
+});
+
+/* ================= TOAST ================= */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>t.classList.remove('show'), 1800);
+}
+
+/* ================= INIT ================= */
+applyPersona();
+recomputePlayground();
+recomputeDecisions();
+</script>
+</body>
+</html>

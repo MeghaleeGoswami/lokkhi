@@ -1,0 +1,84 @@
+:root{
+/* --- Brand core: 7 named values, no more --- */
+--ink-indigo:#1C2B4A;
+--coral-pulse:#F2545B;
+--sand-paper:#F7F1E8;
+--moss-growth:#4C7A5E;
+--charcoal-ink:#33302A;
+--gold-thread:#C99A3D;
+--dim-ember:#A8613F;
+
+/* --- The 8th value, and the only one. Reserved exclusively for the fairy godmother
+   assistant: it is deliberately outside every screen identity so the assistant reads as
+   the same object on Net worth (indigo), Playground (coral) and Grow (moss) alike.
+   Never use Wisteria Wand for anything that is not the assistant. --- */
+--wisteria-wand:#8A5AC0;
+
+/* --- Derived tints/shades. Only ever mixes of the 7 above with sand or ink. --- */
+--ink-indigo-90:#2A3A5C;
+--ink-indigo-70:#5A6784;
+--ink-indigo-12:#E2E1E4;
+--coral-pulse-press:#D8474E;
+--coral-pulse-12:#FCE6E4;
+--moss-growth-press:#3E6650;
+--moss-growth-12:#E6EBE5;
+--gold-thread-12:#F5EBDA;
+--dim-ember-12:#F1E4DA;
+--wisteria-wand-press:#7648A9;
+--wisteria-wand-12:#EFE6F8;
+--wisteria-wand-on-inverse:#B58BE0;
+--sand-paper-raised:#FFFDF8;
+--sand-paper-sunk:#EFE7DA;
+--charcoal-ink-60:#8A857C;
+--charcoal-ink-30:#C7C2B8;
+--hairline:#E3DBCC;
+
+/* --- Semantic surfaces --- */
+--surface-base:var(--sand-paper);
+--surface-card:var(--sand-paper-raised);
+--surface-sunk:var(--sand-paper-sunk);
+--surface-inverse:var(--ink-indigo);
+--surface-inverse-raised:var(--ink-indigo-90);
+--border-hairline:var(--hairline);
+--border-strong:var(--charcoal-ink-30);
+
+/* --- Semantic text --- */
+--text-body:var(--charcoal-ink);
+--text-muted:var(--charcoal-ink-60);
+--text-heading:var(--ink-indigo);
+--text-on-inverse:var(--sand-paper);
+--text-on-inverse-muted:#A9B2C4;
+--text-on-accent:#FFFFFF;
+
+/* --- Semantic action --- */
+--action-primary:var(--coral-pulse);
+--action-primary-press:var(--coral-pulse-press);
+--action-primary-tint:var(--coral-pulse-12);
+--focus-ring:var(--ink-indigo);
+
+/* --- Assistant (fairy godmother) — screen-independent, never themed --- */
+--assistant:var(--wisteria-wand);
+--assistant-press:var(--wisteria-wand-press);
+--assistant-tint:var(--wisteria-wand-12);
+--assistant-on-inverse:var(--wisteria-wand-on-inverse);
+--assistant-glyph:#FFFFFF;
+--assistant-ring:rgba(138,90,192,.22);
+
+/* --- Screen identity (fixed core: one hue per screen) --- */
+--screen-networth:var(--ink-indigo);
+--screen-playground:var(--coral-pulse);
+--screen-grow:var(--moss-growth);
+
+/* --- Owl / status stages --- */
+--stage-behind:var(--dim-ember);
+--stage-behind-tint:var(--dim-ember-12);
+--stage-ontrack:var(--moss-growth);
+--stage-ontrack-tint:var(--moss-growth-12);
+--stage-exceeding:var(--gold-thread);
+--stage-exceeding-tint:var(--gold-thread-12);
+
+/* --- Money value polarity (never a siren) --- */
+--value-gain:var(--moss-growth);
+--value-loss:var(--dim-ember);
+--value-flat:var(--charcoal-ink-60);
+}
