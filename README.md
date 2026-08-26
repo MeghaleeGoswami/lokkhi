@@ -1,2 +1,2 @@
-# lokkhi
+# lokkhi designs
 WIP
